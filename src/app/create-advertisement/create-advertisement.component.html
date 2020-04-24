@@ -1,0 +1,39 @@
+<notifier-container></notifier-container>
+
+<!--<div class="col" id="caDropdown">
+  <div ngbDropdown class="d-inline-block">
+    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+      <button ngbDropdownItem *ngFor="let carBrand of allCarBrands"> {{ carBrand.name }} </button>
+    </div>
+  </div>
+</div>
+-->
+<div id="adForm">
+  <h2 class="card-title text-center"> Create an advertisement </h2>
+  <div class="col-lg">
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="align-items-center">
+            <div class="form-group col-lg">
+
+              <label for="carBrandSelect" class="col-form-label-lg">Select car brand : </label>
+              <div ngbDropdown class="d-lg-inline-block" id="carBrandSelect">
+                <button class="btn btn-outline-primary" id="dropdownCarBrand" ngbDropdownToggle>Select car brand</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownCarBrand">
+                  <button ngbDropdownItem *ngFor="let carBrand of allCarBrands"> {{ carBrand.name }} </button>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -6,6 +6,11 @@ import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { CreateAdvertisementComponent } from './create-advertisement/create-advertisement.component';
+import {CreateAdvertisementService} from './create-advertisement/create-advertisement.service';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 /**
  * Custom angular notifier options
@@ -53,16 +58,21 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CreateAdvertisementComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     NotifierModule.withConfig(customNotifierOptions),
-    FontAwesomeModule
+    FontAwesomeModule,
+    RouterModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 
