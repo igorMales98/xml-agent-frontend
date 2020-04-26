@@ -18,14 +18,27 @@
           <div class="align-items-center">
             <div class="form-group col-lg">
 
-              <label for="carBrandSelect" class="col-form-label-lg">Select car brand : </label>
-              <div ngbDropdown class="d-lg-inline-block" id="carBrandSelect">
-                <button class="btn btn-outline-primary" id="dropdownCarBrand" ngbDropdownToggle>Select car brand</button>
-                <div ngbDropdownMenu aria-labelledby="dropdownCarBrand">
-                  <button ngbDropdownItem *ngFor="let carBrand of allCarBrands"> {{ carBrand.name }} </button>
+              <div class="border-bottom" [ngClass]="{'border-success': !isBrandDropdownInvalid, 'border-danger': isBrandDropdownInvalid}">
+                <label for="carBrandSelect" class="col-form-label-lg">Select car brand : </label>
+                <div ngbDropdown class="d-lg-inline-block" id="carBrandSelect">
+                  <button class="btn btn-outline-primary" id="dropdownCarBrand" ngbDropdownToggle> {{ this.selectedCarBrand }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownCarBrand">
+                    <button ngbDropdownItem *ngFor="let carBrand of allCarBrands" (click)="getBrandModels(carBrand)"> {{ carBrand.name }} </button>
+                  </div>
                 </div>
               </div>
 
+              <div class="border-bottom" [ngClass]="{'border-success': !isModelDropdownInvalid, 'border-danger': isModelDropdownInvalid}">
+                <label for="carModelSelect" class="col-form-label-lg">Select car model : </label>
+                <div ngbDropdown class="d-lg-inline-block" id="carModelSelect">
+                  <button class="btn btn-outline-primary" id="dropdownCarModel" ngbDropdownToggle [disabled]="!isCarBrandSelected"> {{ this.selectedCarModel }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownCarModel">
+                    <button ngbDropdownItem *ngFor="let carModel of allCarBrandModels" (click)="selectModel(carModel)"> {{ carModel.name }} </button>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
