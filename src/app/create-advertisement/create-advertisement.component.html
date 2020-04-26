@@ -18,24 +18,58 @@
           <div class="align-items-center">
             <div class="form-group col-lg">
 
-              <div class="border-bottom" [ngClass]="{'border-success': !isBrandDropdownInvalid, 'border-danger': isBrandDropdownInvalid}">
+              <div id="div1" class="border-bottom"
+                   [ngClass]="{'border-success': !isBrandDropdownInvalid, 'border-danger': isBrandDropdownInvalid}">
                 <label for="carBrandSelect" class="col-form-label-lg">Select car brand : </label>
                 <div ngbDropdown class="d-lg-inline-block" id="carBrandSelect">
-                  <button class="btn btn-outline-primary" id="dropdownCarBrand" ngbDropdownToggle> {{ this.selectedCarBrand }}
+                  <button class="btn btn-outline-primary" id="dropdownCarBrand"
+                          ngbDropdownToggle> {{ this.selectedCarBrand }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownCarBrand">
-                    <button ngbDropdownItem *ngFor="let carBrand of allCarBrands" (click)="getBrandModels(carBrand)"> {{ carBrand.name }} </button>
+                    <button ngbDropdownItem *ngFor="let carBrand of allCarBrands"
+                            (click)="getBrandModels(carBrand)"> {{ carBrand.name }} </button>
                   </div>
                 </div>
               </div>
 
-              <div class="border-bottom" [ngClass]="{'border-success': !isModelDropdownInvalid, 'border-danger': isModelDropdownInvalid}">
+              <div id="div2" class="border-bottom"
+                   [ngClass]="{'border-success': !isModelDropdownInvalid, 'border-danger': isModelDropdownInvalid}">
                 <label for="carModelSelect" class="col-form-label-lg">Select car model : </label>
                 <div ngbDropdown class="d-lg-inline-block" id="carModelSelect">
-                  <button class="btn btn-outline-primary" id="dropdownCarModel" ngbDropdownToggle [disabled]="!isCarBrandSelected"> {{ this.selectedCarModel }}
+                  <button class="btn btn-outline-primary" id="dropdownCarModel" ngbDropdownToggle
+                          [disabled]="!isCarBrandSelected"> {{ this.selectedCarModel }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownCarModel">
-                    <button ngbDropdownItem *ngFor="let carModel of allCarBrandModels" (click)="selectModel(carModel)"> {{ carModel.name }} </button>
+                    <button ngbDropdownItem *ngFor="let carModel of allCarBrandModels"
+                            (click)="selectModel(carModel)"> {{ carModel.name }} </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="div3" class="border-bottom"
+                   [ngClass]="{'border-success': !isFuelTypeDropDownInvalid, 'border-danger': isFuelTypeDropDownInvalid}">
+                <label for="fuelTypeSelect" class="col-form-label-lg">Select fuel type : </label>
+                <div ngbDropdown class="d-lg-inline-block" id="fuelTypeSelect">
+                  <button class="btn btn-outline-primary" id="dropdownFuelType" ngbDropdownToggle
+                          [disabled]="!isCarBrandSelected"> {{ this.selectedFuelType }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownFuelType">
+                    <button ngbDropdownItem *ngFor="let fuelType of allFuelTypes"
+                            (click)="selectFuelType(fuelType)"> {{ fuelType.name }} </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="div4" class="border-bottom"
+                   [ngClass]="{'border-success': !isTransmissionTypeDropdownInvalid, 'border-danger': isTransmissionTypeDropdownInvalid}">
+                <label for="transmissionTypeSelect" class="col-form-label-lg">Select fuel type : </label>
+                <div ngbDropdown class="d-lg-inline-block" id="transmissionTypeSelect">
+                  <button class="btn btn-outline-primary" id="dropdownTransmissionType" ngbDropdownToggle
+                          [disabled]="!isCarBrandSelected"> {{ this.selectedTransmissionType }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownTransmissionType">
+                    <button ngbDropdownItem *ngFor="let transmissionType of allTransmissionTypes"
+                            (click)="selectTransmissionType(transmissionType)"> {{ transmissionType.name }} </button>
                   </div>
                 </div>
               </div>

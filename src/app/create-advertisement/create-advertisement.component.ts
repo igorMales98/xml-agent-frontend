@@ -3,6 +3,8 @@ import {CreateAdvertisementService} from './create-advertisement.service';
 import {CarBrand} from '../model/carBrand';
 import {Router} from '@angular/router';
 import {CarModel} from '../model/carModel';
+import {FuelType} from '../model/fuelType';
+import {TransmissionType} from '../model/transmissionType';
 
 @Component({
   selector: 'app-create-advertisement',
@@ -13,14 +15,20 @@ export class CreateAdvertisementComponent implements OnInit {
 
   isBrandDropdownInvalid = true;
   isModelDropdownInvalid = true;
+  isFuelTypeDropDownInvalid = true;
+  isTransmissionTypeDropdownInvalid = true;
 
   allCarBrands: CarBrand[] = [];
   allCarBrandModels: CarModel[] = [];
+  allFuelTypes: FuelType[] = [];
+  allTransmissionTypes: TransmissionType[] = [];
 
   isCarBrandSelected = false;
 
   selectedCarBrand = 'Select car brand';
   selectedCarModel = 'Select car model';
+  selectedFuelType = 'Select fuel type';
+  selectedTransmissionType = 'Select transmission type';
 
   constructor(private router: Router, private createAdvertisementService: CreateAdvertisementService) {
   }
@@ -28,6 +36,12 @@ export class CreateAdvertisementComponent implements OnInit {
   ngOnInit(): void {
     this.createAdvertisementService.getAllCarBrands().subscribe(data => {
       this.allCarBrands = data;
+    });
+    this.createAdvertisementService.getAllFuelTypes().subscribe(data => {
+      this.allFuelTypes = data;
+    });
+    this.createAdvertisementService.getAllTransmissionTypes().subscribe(data => {
+      this.allTransmissionTypes = data;
     });
   }
 
@@ -49,5 +63,15 @@ export class CreateAdvertisementComponent implements OnInit {
   selectModel(carModel: CarModel) {
     this.selectedCarModel = carModel.name;
     this.isModelDropdownInvalid = false;
+  }
+
+  selectFuelType(fuelType: FuelType) {
+    this.selectedFuelType = fuelType.name;
+    this.isFuelTypeDropDownInvalid = false;
+  }
+
+  selectTransmissionType(transmissionType: TransmissionType) {
+    this.selectedTransmissionType = transmissionType.name;
+    this.isTransmissionTypeDropdownInvalid = false;
   }
 }

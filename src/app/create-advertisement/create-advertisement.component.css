@@ -1,12 +1,53 @@
+/* Form */
 #adForm {
   margin-left: 20%;
   margin-right: 20%;
 }
 
+#div1, #div2, #div3, #div4 {
+  padding-top: 20px;
+}
+
+.border-bottom {
+  border-width: 3px !important;
+}
+
+/* Dropdown za brand*/
+#dropdownCarBrand {
+  width: 200px;
+}
+
 #carBrandSelect {
-  padding-left: 50px;
+  float: right;
+  padding-right: 20%;
+}
+
+/* Dropdown za model */
+#dropdownCarModel {
+  width: 200px;
 }
 
 #carModelSelect {
-  padding-left: 47px;
+  float: right;
+  padding-right: 20%;
+}
+
+/* Dropdown za fuel type */
+#dropdownFuelType {
+  width: 200px;
+}
+
+#fuelTypeSelect {
+  float: right;
+  padding-right: 20%;
+}
+
+/* Dropdown za transmission type */
+#dropdownTransmissionType {
+  width: 200px;
+}
+
+#transmissionTypeSelect {
+  float: right;
+  padding-right: 20%;
 }
