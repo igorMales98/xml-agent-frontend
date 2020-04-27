@@ -11,6 +11,8 @@ import {CreateAdvertisementService} from './create-advertisement/create-advertis
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { RatingComponent } from './rating/rating.component';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 /**
  * Custom angular notifier options
@@ -59,7 +61,8 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    CreateAdvertisementComponent
+    CreateAdvertisementComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ const customNotifierOptions: NotifierOptions = {
     FontAwesomeModule,
     RouterModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TextareaAutosizeModule
   ],
   providers: [
   ],
