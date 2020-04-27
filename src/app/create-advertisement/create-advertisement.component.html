@@ -1,16 +1,7 @@
 <notifier-container></notifier-container>
 
-<!--<div class="col" id="caDropdown">
-  <div ngbDropdown class="d-inline-block">
-    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-      <button ngbDropdownItem *ngFor="let carBrand of allCarBrands"> {{ carBrand.name }} </button>
-    </div>
-  </div>
-</div>
--->
 <div id="adForm">
-  <h2 class="card-title text-center"> Create an advertisement </h2>
+  <h1 class="card-title text-center"> Create an advertisement </h1>
   <div class="col-lg">
     <div class="card">
       <div class="card-body">
@@ -74,6 +65,53 @@
                 </div>
               </div>
 
+              <div id="div5" class="border-bottom"
+                   [ngClass]="{'border-success': !isClassDropdownInvalid, 'border-danger': isClassDropdownInvalid}">
+                <label for="carClassSelect" class="col-form-label-lg">Select car class : </label>
+                <div ngbDropdown class="d-lg-inline-block" id="carClassSelect">
+                  <button class="btn btn-outline-primary" id="dropdownCarClass" ngbDropdownToggle
+                          [disabled]="!isCarBrandSelected"> {{ this.selectedCarClass }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownCarClass">
+                    <button ngbDropdownItem *ngFor="let carClass of allCarClasses"
+                            (click)="selectCarClass(carClass)"> {{ carClass.name }} </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="div6" class="border-bottom"
+                   [ngClass]="{'border-success': !isPriceListNotSelected, 'border-danger': isPriceListNotSelected}">
+                <label for="btnPriceList" class="col-form-label-lg">Select price list : </label>
+                <button class="btn btn-outline-primary" id="btnPriceList"
+                        (click)="openPriceListsModal(myModalPriceList)"> {{ this.selectedPricelist }}
+                </button>
+              </div>
+
+              <form [formGroup]="advertisementForm">
+                <div id="div7" class="border-bottom"
+                     [ngClass]="{'border-success': adFb.mileage.valid, 'border-danger': adFb.mileage.invalid}">
+                  <label for="mileage" class="col-form-label-lg">Mileage : </label>
+                  <input class="form-control-lg" id="mileage" formControlName="mileage"
+                         placeholder="Enter mileage of car">
+                  <span style="color: red; float: right"
+                        *ngIf="adFb.mileage.invalid && adFb.mileage.touched">Mileage cannot be negative, or over 1000000000.</span>
+                </div>
+
+                <div id="div8" class="border-bottom"
+                     [ngClass]="{'border-success': adFb.childSeats.valid, 'border-danger': adFb.childSeats.invalid}">
+                  <label for="childSeats" class="col-form-label-lg">Number of child seats : </label>
+                  <input class="form-control-lg" id="childSeats" formControlName="childSeats"
+                         placeholder="Enter number of child seats">
+                  <span style="color: red; float: right"
+                        *ngIf="adFb.childSeats.invalid && adFb.childSeats.touched">There must be between 0 and 5 child seats.</span>
+                </div>
+              </form>
+
+              <div id="div9" class="border-bottom border-success">
+                <label for="hasCDW" class="col-form-label-lg">Has a <i>CDW</i> : </label>
+                <mat-checkbox color="primary" id="hasCDW"></mat-checkbox>
+              </div>
+
             </div>
           </div>
 
@@ -81,6 +119,40 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="mt-lg-5 text-center">
+  <ng-template #myModalPriceList let-modal>
+
+    <div>
+      <label class="col-form-label-lg text-center">Choose a pricelist </label>
+      <div>
+        <table id="table" class="table table-bordered table-striped">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Price per day</th>
+            <th scope="col">Select</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let pricelist of allPricelists">
+            <td>{{pricelist.id}}</td>
+            <td>{{pricelist.pricePerDay}}</td>
+            <td>
+              <mat-radio-button name="priceGroup" color="primary"
+                                (click)="selectPricelist(pricelist)"></mat-radio-button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <button class="btn btn-success" [hidden]="!isPricelistSelected" (click)="confirmSelection()"> Confirm selection
+    </button>
+
+  </ng-template>
 </div>
 
 

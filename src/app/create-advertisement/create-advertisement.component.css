@@ -4,7 +4,7 @@
   margin-right: 20%;
 }
 
-#div1, #div2, #div3, #div4 {
+#div1, #div2, #div3, #div4, #div5, #div6, #div7, #div8 {
   padding-top: 20px;
 }
 
@@ -12,9 +12,15 @@
   border-width: 3px !important;
 }
 
+#btnPriceList {
+  width: 300px;
+  float: right;
+  margin-right: 20%;
+}
+
 /* Dropdown za brand*/
 #dropdownCarBrand {
-  width: 200px;
+  width: 300px;
 }
 
 #carBrandSelect {
@@ -24,7 +30,7 @@
 
 /* Dropdown za model */
 #dropdownCarModel {
-  width: 200px;
+  width: 300px;
 }
 
 #carModelSelect {
@@ -34,7 +40,7 @@
 
 /* Dropdown za fuel type */
 #dropdownFuelType {
-  width: 200px;
+  width: 300px;
 }
 
 #fuelTypeSelect {
@@ -44,10 +50,44 @@
 
 /* Dropdown za transmission type */
 #dropdownTransmissionType {
-  width: 200px;
+  width: 300px;
 }
 
 #transmissionTypeSelect {
   float: right;
   padding-right: 20%;
+}
+
+/* Dropdown za class */
+#dropdownCarClass {
+  width: 300px;
+}
+
+#carClassSelect {
+  float: right;
+  padding-right: 20%;
+}
+
+#mileage {
+  float: right;
+  width: 300px;
+  margin-right: 20%;
+}
+
+#childSeats {
+  float: right;
+  width: 300px;
+  margin-right: 20%;
+}
+
+#hasCDW {
+  margin-left: 30%;
+}
+
+.mat-checkbox .mat-checkbox-frame {
+  transform: scale(1.8);
+}
+
+.mat-checkbox-checked .mat-checkbox-background {
+  transform: scale(1.8);
 }

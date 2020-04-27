@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {CarModel} from '../model/carModel';
 import {FuelType} from '../model/fuelType';
 import {TransmissionType} from '../model/transmissionType';
+import {CarClass} from '../model/carClass';
+import {Pricelist} from '../model/pricelist';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,14 @@ export class CreateAdvertisementService {
 
   getAllTransmissionTypes() {
     return this.httpClient.get<TransmissionType[]>('http://localhost:8082/api/transmission-type/getAll');
+  }
+
+  getAllCarClasses() {
+    return this.httpClient.get<CarClass[]>('http://localhost:8082/api/car-class/getAll');
+  }
+
+  getAllPricelists() {
+    return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist/getAll');
   }
 
 }
