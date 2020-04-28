@@ -12,6 +12,7 @@ import {Pricelist} from '../model/pricelist';
 import {DatePipe} from '@angular/common';
 import {faCalendar} from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
+import {CreateAdvertisements} from '../model/createAdvertisements';
 
 @Component({
   selector: 'app-create-advertisement',
@@ -47,6 +48,12 @@ export class CreateAdvertisementComponent implements OnInit {
 
   tempPricelist: Pricelist;
   finalPricelist: Pricelist;
+  finalCarBrand: CarBrand;
+  finalCarModel: CarModel;
+  finalFuelType: FuelType;
+  finalTransmissionType: TransmissionType;
+  finalCarClass: CarClass;
+  hasACDW = false;
 
   closeResult: string;
   advertisementForm: FormGroup;
@@ -60,11 +67,16 @@ export class CreateAdvertisementComponent implements OnInit {
   public imagePath;
   imgURLS: any[] = [];
   public message: string;
+  selectedFiles: Blob[] = [];
+
+  d1: Date;
+  d2: Date;
 
   faCalendar = faCalendar;
 
   constructor(private router: Router, private createAdvertisementService: CreateAdvertisementService, private modalService: NgbModal,
               private formBuilder: FormBuilder, private datePipe: DatePipe, private config: NgbDatepickerConfig) {
+    console.log('adasfaafafasfafsf' + this.tempPricelist);
     this.todayDate = new Date();
     this.minDate = {
       year: this.todayDate.getFullYear(),
@@ -116,6 +128,7 @@ export class CreateAdvertisementComponent implements OnInit {
         this.selectedCarBrand = carBrand.name;
         this.selectedCarModel = 'Select car model';
         this.isModelDropdownInvalid = true;
+        this.finalCarBrand = carBrand;
       });
     }
   }
@@ -124,21 +137,25 @@ export class CreateAdvertisementComponent implements OnInit {
   selectModel(carModel: CarModel) {
     this.selectedCarModel = carModel.name;
     this.isModelDropdownInvalid = false;
+    this.finalCarModel = carModel;
   }
 
   selectFuelType(fuelType: FuelType) {
     this.selectedFuelType = fuelType.name;
     this.isFuelTypeDropDownInvalid = false;
+    this.finalFuelType = fuelType;
   }
 
   selectTransmissionType(transmissionType: TransmissionType) {
     this.selectedTransmissionType = transmissionType.name;
     this.isTransmissionTypeDropdownInvalid = false;
+    this.finalTransmissionType = transmissionType;
   }
 
   selectCarClass(carClass: CarClass) {
     this.selectedCarClass = carClass.name;
     this.isClassDropdownInvalid = false;
+    this.finalCarClass = carClass;
   }
 
   openPriceListsModal(myModalPriceList: TemplateRef<any>) {
@@ -177,6 +194,9 @@ export class CreateAdvertisementComponent implements OnInit {
       return;
     }
 
+    this.selectedFiles.push(files[0]);
+    // this.selectedFile = files[0];
+
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = 'Only images are supported.';
@@ -199,7 +219,7 @@ export class CreateAdvertisementComponent implements OnInit {
     this.minDate2 = {
       year: new Date(datee).getFullYear(),
       month: new Date(datee).getMonth(),
-      day: new Date(datee).getDate() + 1
+      day: new Date(datee).getDay() + 1
     };
 
     this.selectedEndDate = undefined;
@@ -211,4 +231,37 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
 
+  isStartDateValid() {
+    return this.selectedStartDate !== null && this.selectedStartDate !== undefined;
+  }
+
+  isEndDateValid() {
+    return this.selectedEndDate !== null && this.selectedEndDate !== undefined;
+  }
+
+  isEverythingValid() {
+    return this.finalCarBrand !== undefined && this.finalCarModel !== undefined && this.finalFuelType !== undefined &&
+      this.finalCarClass !== undefined && this.finalTransmissionType !== undefined && this.advertisementForm.valid &&
+      this.selectedStartDate !== undefined && this.selectedStartDate !== null && this.selectedEndDate !== undefined &&
+      this.selectedEndDate !== null && this.imgURLS.length !== 0;
+  }
+
+  createAd() {
+    const date1 = moment(this.selectedStartDate).format('YYYY-MM-DD');
+    const date2 = moment(this.selectedEndDate).format('YYYY-MM-DD');
+    this.d1 = new Date(date1);
+    this.d2 = new Date(date2);
+    this.d1.setMonth(this.d1.getMonth() - 1);
+    this.d2.setMonth(this.d2.getMonth() - 1);
+    const createAdvertisement = new CreateAdvertisements(this.finalCarBrand, this.finalCarModel, this.finalCarClass, this.finalFuelType,
+      this.finalTransmissionType, this.finalPricelist, this.d1,
+      this.d2, this.advertisementForm.value.mileage,
+      this.advertisementForm.value.childSeats, this.hasACDW);
+    this.createAdvertisementService.createAdvertisement(this.selectedFiles, createAdvertisement);
+  }
+
+  changeCDW() {
+    this.hasACDW = this.hasACDW !== true;
+    console.log(this.hasACDW);
+  }
 }

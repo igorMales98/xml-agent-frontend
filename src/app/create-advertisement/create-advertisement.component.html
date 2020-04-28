@@ -109,22 +109,24 @@
               </form>
 
 
-              <div id="startDate" class="border-bottom">
+              <div id="startDate" class="border-bottom"
+                   [ngClass]="{'border-success': isStartDateValid(), 'border-danger': !isStartDateValid()}">
                 <label for="startRentDate" class="col-form-label-lg">Start date of rent: </label>
                 <input id="startRentDate" class="form-control-lg" placeholder="Choose start date of rent"
                        name="dp" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate" [(ngModel)]="selectedStartDate"
-                       (ngModelChange)="selectStartDate()" [ngModelOptions]="{standalone: true}">
+                       (ngModelChange)="selectStartDate()" [ngModelOptions]="{standalone: true}" [readOnly]="true">
                 <button class="btn btn-outline-secondary calendar" id="startRentDateButton" (click)="d.toggle()"
                         type="button">
                   <fa-icon [icon]="faCalendar"></fa-icon>
                 </button>
               </div>
 
-              <div id="endDate" class="border-bottom">
+              <div id="endDate" class="border-bottom"
+                   [ngClass]="{'border-success': isEndDateValid(), 'border-danger': !isEndDateValid()}">
                 <label for="endRentDate" class="col-form-label-lg">End date of rent: </label>
                 <input id="endRentDate" class="form-control-lg" placeholder="Choose end date of rent"
                        name="dp" ngbDatepicker #d2="ngbDatepicker" [minDate]="minDate2" [(ngModel)]="selectedEndDate"
-                       (ngModelChange)="selectEndDate()" [ngModelOptions]="{standalone: true}">
+                       (ngModelChange)="selectEndDate()" [ngModelOptions]="{standalone: true}" [readOnly]="true">
                 <button class="btn btn-outline-secondary calendar" id="endRentDateButton" (click)="d2.toggle()"
                         type="button">
                   <fa-icon [icon]="faCalendar"></fa-icon>
@@ -134,11 +136,12 @@
 
               <div id="div9" class="border-bottom border-success">
                 <label for="hasCDW" class="col-form-label-lg">Has a <i>CDW</i> : </label>
-                <mat-checkbox color="primary" id="hasCDW"></mat-checkbox>
+                <mat-checkbox color="primary" id="hasCDW" [checked]="hasACDW" (change)="changeCDW()"></mat-checkbox>
               </div>
 
               <div id="selectImages" class="form-control-file">
-                <label class="col-form-label-lg" style="width: 100%;"> Car images </label>
+                <label class="col-form-label-lg" style="width: 100%;"> Car images (You must upload at least 1
+                  image) </label>
                 <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
               </div>
 
@@ -150,6 +153,11 @@
             </div>
           </div>
 
+          <div class="text-center">
+            <button class="btn btn-success text-center"  (click)="createAd()"> Create <!-- [hidden]="isEverythingValid()" -->
+              advertisement
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -7,6 +7,7 @@ import {FuelType} from '../model/fuelType';
 import {TransmissionType} from '../model/transmissionType';
 import {CarClass} from '../model/carClass';
 import {Pricelist} from '../model/pricelist';
+import {CreateAdvertisements} from '../model/createAdvertisements';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,22 @@ export class CreateAdvertisementService {
 
   getAllPricelists() {
     return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist/getAll');
+  }
+
+  getTest() {
+    return this.httpClient.get('http://localhost:8082/api/advertisement/test').subscribe();
+  }
+
+  createAdvertisement(selectedFiles, createAdvertisement: CreateAdvertisements) {
+
+    return this.httpClient.post('http://localhost:8082/api/advertisement/create', createAdvertisement).subscribe(data => {
+      /*const uploadData = new FormData();
+
+      for (let blob of selectedFiles.item(0)) {
+        uploadData.append('myFile', blob, blob.name);
+      }*/
+
+    });
   }
 
 }
