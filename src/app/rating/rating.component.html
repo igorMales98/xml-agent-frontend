@@ -11,14 +11,14 @@
 <div *ngFor="let comment of comments">
   <hr>
  <div class="chip">
-    <fa-icon [icon]="faUser" class="mr-1"></fa-icon> {{comment.author}}
+    <fa-icon [icon]="faUser" class="mr-1"></fa-icon> {{comment.commenter.firstName}} {{comment.commenter.lastName}}
 </div>
 <div class="md-form">
-  <textarea type="text" id="form8" disabled autosize class="md-textarea form-control"> {{comment.text}}</textarea>
+  <textarea type="text" id="form8" disabled autosize class="md-textarea form-control"> {{comment.comment}}</textarea>
 </div>
 <div *ngIf="comment.reply==null">
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="openModal(content, comment.author)">Reply</button>
+        <button type="button" class="btn btn-primary" (click)="openModal(content, comment.commenter.id)">Reply</button>
     </div>
 </div>
 <div *ngIf="comment.reply!=null" class="marginsReply">

@@ -2,7 +2,8 @@ import { Component, OnInit, TemplateRef} from '@angular/core';
 import {faComments, faUser} from '@fortawesome/free-regular-svg-icons';
 import {Comment} from '../model/comment'
 import {ModalDismissReasons,NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-
+import { RatingService } from './rating.service';
+//TODO: dodati advertisement u dto, dodati ime i prezime agenta, naziv i rate advertisementa
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
@@ -37,31 +38,19 @@ export class RatingComponent implements OnInit {
   faComment = faComments;
   faUser = faUser;
   closeResult = null;
-  clickedAuthor: string;
-  comments: Comment[] = [
-    {
-      "author": "Douglas  Pace",
-      "text": "Text...",
-      "reply": null
-    },
-    {
-      "author": "Mcleod  Mueller",
-      "text": "Text...",
-      "reply": null
-    },
-    {
-      "author": "Day  Meyers",
-      "text": "Text...",
-      "reply": null
-    }
-  ];
+  clickedAuthor: number;
+  agent: string;
+  comments: Comment[];
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private ratingService: RatingService) { }
 
   ngOnInit(): void {
+    this.ratingService.getComments().subscribe(data => {
+      this.comments = data;
+    });
   }
-  openModal(content: TemplateRef<any>, author: string) {  
-    this.clickedAuthor = author;   
+  openModal(content: TemplateRef<any>, commenter: number) {  
+    this.clickedAuthor = commenter;   
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -70,12 +59,15 @@ export class RatingComponent implements OnInit {
   }
   sendReply() {
     for (let i=0; i<this.comments.length; i++) {        
-      if (this.comments[i].author == this.clickedAuthor) {
+      if (this.comments[i].commenter.id=== this.clickedAuthor) {
         this.comments[i].reply = (document.getElementById('replyComment') as HTMLInputElement).value;
+        this.ratingService.sendReply(this.comments[i]).subscribe();
       }
     }
     this.modalService.dismissAll();
   }
+
+  
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
