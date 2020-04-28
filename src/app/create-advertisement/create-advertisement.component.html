@@ -105,13 +105,48 @@
                   <span style="color: red; float: right"
                         *ngIf="adFb.childSeats.invalid && adFb.childSeats.touched">There must be between 0 and 5 child seats.</span>
                 </div>
+
               </form>
+
+
+              <div id="startDate" class="border-bottom">
+                <label for="startRentDate" class="col-form-label-lg">Start date of rent: </label>
+                <input id="startRentDate" class="form-control-lg" placeholder="Choose start date of rent"
+                       name="dp" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate" [(ngModel)]="selectedStartDate"
+                       (ngModelChange)="selectStartDate()" [ngModelOptions]="{standalone: true}">
+                <button class="btn btn-outline-secondary calendar" id="startRentDateButton" (click)="d.toggle()"
+                        type="button">
+                  <fa-icon [icon]="faCalendar"></fa-icon>
+                </button>
+              </div>
+
+              <div id="endDate" class="border-bottom">
+                <label for="endRentDate" class="col-form-label-lg">End date of rent: </label>
+                <input id="endRentDate" class="form-control-lg" placeholder="Choose end date of rent"
+                       name="dp" ngbDatepicker #d2="ngbDatepicker" [minDate]="minDate2" [(ngModel)]="selectedEndDate"
+                       (ngModelChange)="selectEndDate()" [ngModelOptions]="{standalone: true}">
+                <button class="btn btn-outline-secondary calendar" id="endRentDateButton" (click)="d2.toggle()"
+                        type="button">
+                  <fa-icon [icon]="faCalendar"></fa-icon>
+                </button>
+              </div>
+
 
               <div id="div9" class="border-bottom border-success">
                 <label for="hasCDW" class="col-form-label-lg">Has a <i>CDW</i> : </label>
                 <mat-checkbox color="primary" id="hasCDW"></mat-checkbox>
               </div>
 
+              <div id="selectImages" class="form-control-file">
+                <label class="col-form-label-lg" style="width: 100%;"> Car images </label>
+                <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
+              </div>
+
+              <div id="images" class="row">
+                <div *ngFor="let image of imgURLS" style="width: 210px; height: 210px;" class="col-md-3">
+                  <img [src]="image" height="200" width="200" *ngIf="image">
+                </div>
+              </div>
             </div>
           </div>
 

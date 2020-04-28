@@ -4,7 +4,7 @@
   margin-right: 20%;
 }
 
-#div1, #div2, #div3, #div4, #div5, #div6, #div7, #div8 {
+#div1, #div2, #div3, #div4, #div5, #div6, #div7, #div8, #div9, #startDate, #endDate {
   padding-top: 20px;
 }
 
@@ -80,6 +80,23 @@
   margin-right: 20%;
 }
 
+#startRentDate {
+  margin-left: 24%;
+  width: 300px;
+}
+
+#endRentDate {
+  margin-left: 25%;
+  width: 300px;
+}
+
+#startRentDateButton, #endRentDateButton {
+  float: right;
+  width: 40px;
+  margin-right: 14.5%;
+  height: 45px;
+}
+
 #hasCDW {
   margin-left: 30%;
 }
@@ -90,4 +107,8 @@
 
 .mat-checkbox-checked .mat-checkbox-background {
   transform: scale(1.8);
+}
+
+#images {
+  padding-top: 30px;
 }

@@ -14,6 +14,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {DatePipe} from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 /**
  * Custom angular notifier options
@@ -77,9 +79,12 @@ const customNotifierOptions: NotifierOptions = {
     MDBBootstrapModule.forRoot(),
     MatCheckboxModule,
     ReactiveFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 

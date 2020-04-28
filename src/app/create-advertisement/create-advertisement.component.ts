@@ -6,9 +6,12 @@ import {CarModel} from '../model/carModel';
 import {FuelType} from '../model/fuelType';
 import {TransmissionType} from '../model/transmissionType';
 import {CarClass} from '../model/carClass';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalDismissReasons, NgbDatepickerConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pricelist} from '../model/pricelist';
+import {DatePipe} from '@angular/common';
+import {faCalendar} from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-advertisement',
@@ -46,11 +49,37 @@ export class CreateAdvertisementComponent implements OnInit {
   finalPricelist: Pricelist;
 
   closeResult: string;
-
   advertisementForm: FormGroup;
 
+  todayDate: any;
+  minDate = undefined;
+  minDate2 = undefined;
+  selectedStartDate: string;
+  selectedEndDate: string;
+
+  public imagePath;
+  imgURLS: any[] = [];
+  public message: string;
+
+  faCalendar = faCalendar;
+
   constructor(private router: Router, private createAdvertisementService: CreateAdvertisementService, private modalService: NgbModal,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private datePipe: DatePipe, private config: NgbDatepickerConfig) {
+    this.todayDate = new Date();
+    this.minDate = {
+      year: this.todayDate.getFullYear(),
+      month: this.todayDate.getMonth() + 1,
+      day: this.todayDate.getDate() + 1
+    };
+    this.minDate2 = {
+      year: this.todayDate.getFullYear(),
+      month: this.todayDate.getMonth() + 1,
+      day: this.todayDate.getDate() + 2
+    };
+  }
+
+  get adFb() {
+    return this.advertisementForm.controls;
   }
 
   ngOnInit(): void {
@@ -130,10 +159,6 @@ export class CreateAdvertisementComponent implements OnInit {
     }
   }
 
-  get adFb() {
-    return this.advertisementForm.controls;
-  }
-
   selectPricelist(pricelist: Pricelist) {
     this.isPricelistSelected = true;
     this.tempPricelist = pricelist;
@@ -146,4 +171,44 @@ export class CreateAdvertisementComponent implements OnInit {
     this.isPriceListNotSelected = false;
     this.modalService.dismissAll();
   }
+
+  preview(files) {
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (event) => {
+      this.imgURLS.push(reader.result);
+    };
+  }
+
+  selectStartDate() {
+    console.log(this.selectedStartDate);
+
+    const datee = moment(this.selectedStartDate).format('YYYY-MM-DD');
+    console.log('dateeee' + datee);
+    this.minDate2 = {
+      year: new Date(datee).getFullYear(),
+      month: new Date(datee).getMonth(),
+      day: new Date(datee).getDate() + 1
+    };
+
+    this.selectedEndDate = undefined;
+
+  }
+
+  selectEndDate() {
+    console.log(this.selectedEndDate);
+  }
+
+
 }
