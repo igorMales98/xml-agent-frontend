@@ -54,6 +54,7 @@ export class CreateAdvertisementComponent implements OnInit {
   finalTransmissionType: TransmissionType;
   finalCarClass: CarClass;
   hasACDW = false;
+  isUnlimited = true;
 
   closeResult: string;
   advertisementForm: FormGroup;
@@ -71,6 +72,8 @@ export class CreateAdvertisementComponent implements OnInit {
 
   d1: Date;
   d2: Date;
+  helpDate: Date;
+  dates: string[] = [];
 
   faCalendar = faCalendar;
 
@@ -98,7 +101,8 @@ export class CreateAdvertisementComponent implements OnInit {
     this.advertisementForm = this.formBuilder.group({
       mileage: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(1),
         Validators.maxLength(10), Validators.min(0)]],
-      childSeats: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(5), Validators.min(0)]]
+      childSeats: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(5), Validators.min(0)]],
+      allowedDistance: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.maxLength(6), Validators.minLength(1)]]
     });
 
     this.createAdvertisementService.getAllCarBrands().subscribe(data => {
@@ -213,17 +217,20 @@ export class CreateAdvertisementComponent implements OnInit {
 
   selectStartDate() {
     console.log(this.selectedStartDate);
-
     const datee = moment(this.selectedStartDate).format('YYYY-MM-DD');
-    console.log('dateeee' + datee);
+    this.helpDate = new Date(datee);
+    this.helpDate.setMonth(this.helpDate.getMonth() - 1);
+    const datum = this.datePipe.transform(this.helpDate, 'yyyy-MM-dd');
+    this.helpDate = new Date(datum);
+    this.dates = datum.split('-');
+
     this.minDate2 = {
-      year: new Date(datee).getFullYear(),
-      month: new Date(datee).getMonth(),
-      day: new Date(datee).getDay() + 1
+      year: +this.dates[0],
+      month: +this.dates[1],
+      day: +this.dates[2] + 1
     };
 
     this.selectedEndDate = undefined;
-
   }
 
   selectEndDate() {
@@ -241,7 +248,7 @@ export class CreateAdvertisementComponent implements OnInit {
 
   isEverythingValid() {
     return this.finalCarBrand !== undefined && this.finalCarModel !== undefined && this.finalFuelType !== undefined &&
-      this.finalCarClass !== undefined && this.finalTransmissionType !== undefined && this.advertisementForm.valid &&
+      this.finalCarClass !== undefined && this.finalTransmissionType !== undefined && (this.advertisementForm.valid || this.isUnlimited) &&
       this.selectedStartDate !== undefined && this.selectedStartDate !== null && this.selectedEndDate !== undefined &&
       this.selectedEndDate !== null && this.imgURLS.length !== 0;
   }
@@ -253,15 +260,23 @@ export class CreateAdvertisementComponent implements OnInit {
     this.d2 = new Date(date2);
     this.d1.setMonth(this.d1.getMonth() - 1);
     this.d2.setMonth(this.d2.getMonth() - 1);
+    if (this.isUnlimited) {
+      this.advertisementForm.value.allowedDistance = 1000000;
+    }
     const createAdvertisement = new CreateAdvertisements(this.finalCarBrand, this.finalCarModel, this.finalCarClass, this.finalFuelType,
       this.finalTransmissionType, this.finalPricelist, this.d1,
       this.d2, this.advertisementForm.value.mileage,
-      this.advertisementForm.value.childSeats, this.hasACDW);
+      this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance);
     this.createAdvertisementService.createAdvertisement(this.selectedFiles, createAdvertisement);
   }
 
   changeCDW() {
     this.hasACDW = this.hasACDW !== true;
     console.log(this.hasACDW);
+  }
+
+  changeIsUnlimited() {
+    this.isUnlimited = this.isUnlimited !== true;
+    console.log(this.isUnlimited);
   }
 }

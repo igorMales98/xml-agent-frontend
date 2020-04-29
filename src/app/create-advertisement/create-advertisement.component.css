@@ -4,7 +4,7 @@
   margin-right: 20%;
 }
 
-#div1, #div2, #div3, #div4, #div5, #div6, #div7, #div8, #div9, #startDate, #endDate {
+#div1, #div2, #div3, #div4, #div5, #div6, #div7, #div8, #div9, #startDate, #endDate, #divUnlimited, #div10 {
   padding-top: 20px;
 }
 
@@ -74,7 +74,7 @@
   margin-right: 20%;
 }
 
-#childSeats {
+#childSeats, #allowedDistance {
   float: right;
   width: 300px;
   margin-right: 20%;
@@ -99,6 +99,10 @@
 
 #hasCDW {
   margin-left: 30%;
+}
+
+#isUnlimited {
+  margin-left: 25%;
 }
 
 .mat-checkbox .mat-checkbox-frame {

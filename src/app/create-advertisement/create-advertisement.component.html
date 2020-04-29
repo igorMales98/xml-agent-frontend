@@ -41,8 +41,8 @@
                    [ngClass]="{'border-success': !isFuelTypeDropDownInvalid, 'border-danger': isFuelTypeDropDownInvalid}">
                 <label for="fuelTypeSelect" class="col-form-label-lg">Select fuel type : </label>
                 <div ngbDropdown class="d-lg-inline-block" id="fuelTypeSelect">
-                  <button class="btn btn-outline-primary" id="dropdownFuelType" ngbDropdownToggle
-                          [disabled]="!isCarBrandSelected"> {{ this.selectedFuelType }}
+                  <button class="btn btn-outline-primary" id="dropdownFuelType"
+                          ngbDropdownToggle> {{ this.selectedFuelType }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownFuelType">
                     <button ngbDropdownItem *ngFor="let fuelType of allFuelTypes"
@@ -56,7 +56,7 @@
                 <label for="transmissionTypeSelect" class="col-form-label-lg">Select fuel type : </label>
                 <div ngbDropdown class="d-lg-inline-block" id="transmissionTypeSelect">
                   <button class="btn btn-outline-primary" id="dropdownTransmissionType" ngbDropdownToggle
-                          [disabled]="!isCarBrandSelected"> {{ this.selectedTransmissionType }}
+                  > {{ this.selectedTransmissionType }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownTransmissionType">
                     <button ngbDropdownItem *ngFor="let transmissionType of allTransmissionTypes"
@@ -70,7 +70,7 @@
                 <label for="carClassSelect" class="col-form-label-lg">Select car class : </label>
                 <div ngbDropdown class="d-lg-inline-block" id="carClassSelect">
                   <button class="btn btn-outline-primary" id="dropdownCarClass" ngbDropdownToggle
-                          [disabled]="!isCarBrandSelected"> {{ this.selectedCarClass }}
+                  > {{ this.selectedCarClass }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownCarClass">
                     <button ngbDropdownItem *ngFor="let carClass of allCarClasses"
@@ -104,6 +104,23 @@
                          placeholder="Enter number of child seats">
                   <span style="color: red; float: right"
                         *ngIf="adFb.childSeats.invalid && adFb.childSeats.touched">There must be between 0 and 5 child seats.</span>
+                </div>
+
+                <div id="divUnlimited" class="border-bottom"
+                     [ngClass]="{'border-success': isUnlimited}">
+                  <label for="hasCDW" class="col-form-label-lg"> Allowed distance </label>
+                  <mat-checkbox color="primary" id="isUnlimited" [checked]="isUnlimited" (change)="changeIsUnlimited()">
+                    Unlimited
+                  </mat-checkbox>
+                </div>
+
+                <div id="div10" class="border-bottom" [hidden]="isUnlimited"
+                     [ngClass]="{'border-success': adFb.allowedDistance.valid, 'border-danger': adFb.allowedDistance.invalid}">
+                  <label for="allowedDistance" class="col-form-label-lg">Allowed distance: </label>
+                  <input class="form-control-lg" id="allowedDistance" formControlName="allowedDistance"
+                         placeholder="Enter limit on allowed distance">
+                  <span style="color: red; float: right"
+                        *ngIf="adFb.allowedDistance.invalid && adFb.allowedDistance.touched">Enter correct allowed distance.</span>
                 </div>
 
               </form>
@@ -154,7 +171,7 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-success text-center"  (click)="createAd()"> Create <!-- [hidden]="isEverythingValid()" -->
+            <button class="btn btn-success text-center" [hidden]="!isEverythingValid()" (click)="createAd()"> Create
               advertisement
             </button>
           </div>

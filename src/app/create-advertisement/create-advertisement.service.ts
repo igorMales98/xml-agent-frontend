@@ -48,11 +48,13 @@ export class CreateAdvertisementService {
   createAdvertisement(selectedFiles, createAdvertisement: CreateAdvertisements) {
 
     return this.httpClient.post('http://localhost:8082/api/advertisement/create', createAdvertisement).subscribe(data => {
-      /*const uploadData = new FormData();
+      const uploadData = new FormData();
 
-      for (let blob of selectedFiles.item(0)) {
+      for (let blob of selectedFiles) {
         uploadData.append('myFile', blob, blob.name);
-      }*/
+      }
+
+      this.httpClient.post('http://localhost:8082/api/advertisement/uploadPhotos/' + data, uploadData).subscribe();
 
     });
   }
