@@ -116,3 +116,14 @@
 #images {
   padding-top: 30px;
 }
+
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

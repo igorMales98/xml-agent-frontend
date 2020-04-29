@@ -41,10 +41,6 @@ export class CreateAdvertisementService {
     return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist/getAll');
   }
 
-  getTest() {
-    return this.httpClient.get('http://localhost:8082/api/advertisement/test').subscribe();
-  }
-
   createAdvertisement(selectedFiles, createAdvertisement: CreateAdvertisements) {
 
     return this.httpClient.post('http://localhost:8082/api/advertisement/create', createAdvertisement).subscribe(data => {

@@ -10,9 +10,10 @@ import {ModalDismissReasons, NgbDatepickerConfig, NgbModal} from '@ng-bootstrap/
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pricelist} from '../model/pricelist';
 import {DatePipe} from '@angular/common';
-import {faCalendar} from '@fortawesome/free-solid-svg-icons';
+import {faCalendar, faWindowClose} from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import {CreateAdvertisements} from '../model/createAdvertisements';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-create-advertisement',
@@ -76,10 +77,14 @@ export class CreateAdvertisementComponent implements OnInit {
   dates: string[] = [];
 
   faCalendar = faCalendar;
+  faClose = faWindowClose;
+
+  notifier: NotifierService;
 
   constructor(private router: Router, private createAdvertisementService: CreateAdvertisementService, private modalService: NgbModal,
-              private formBuilder: FormBuilder, private datePipe: DatePipe, private config: NgbDatepickerConfig) {
-    console.log('adasfaafafasfafsf' + this.tempPricelist);
+              private formBuilder: FormBuilder, private datePipe: DatePipe, private config: NgbDatepickerConfig,
+              private notifierService: NotifierService) {
+    this.notifier = notifierService;
     this.todayDate = new Date();
     this.minDate = {
       year: this.todayDate.getFullYear(),
@@ -120,6 +125,10 @@ export class CreateAdvertisementComponent implements OnInit {
     this.createAdvertisementService.getAllPricelists().subscribe(data => {
       this.allPricelists = data;
     });
+  }
+
+  public showNotification(type: string, message: string): void {
+    this.notifier.notify(type, message);
   }
 
   getBrandModels(carBrand: CarBrand) {
@@ -268,6 +277,8 @@ export class CreateAdvertisementComponent implements OnInit {
       this.d2, this.advertisementForm.value.mileage,
       this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance);
     this.createAdvertisementService.createAdvertisement(this.selectedFiles, createAdvertisement);
+    this.showNotification('success', 'Successfully created an advertisement.');
+    this.router.navigate(['/homePage']);
   }
 
   changeCDW() {
@@ -278,5 +289,12 @@ export class CreateAdvertisementComponent implements OnInit {
   changeIsUnlimited() {
     this.isUnlimited = this.isUnlimited !== true;
     console.log(this.isUnlimited);
+  }
+
+  removeImage(image: any) {
+    const index: number = this.imgURLS.indexOf(image);
+    if (index !== -1) {
+      this.imgURLS.splice(index, 1);
+    }
   }
 }

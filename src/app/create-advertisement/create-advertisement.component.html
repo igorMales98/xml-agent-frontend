@@ -162,9 +162,13 @@
                 <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
               </div>
 
-              <div id="images" class="row">
-                <div *ngFor="let image of imgURLS" style="width: 210px; height: 210px;" class="col-md-3">
+              <div id="images" class="row img_wrap">
+                <div *ngFor="let image of imgURLS" style="width: 210px; height: 210px;"
+                     class="col-md-3">
                   <img [src]="image" height="200" width="200" *ngIf="image">
+                  <button class="btn-outline-danger btn-sm-sm closeButton" (click)="removeImage(image)">
+                    <fa-icon [icon]="faClose"></fa-icon>
+                  </button>
                 </div>
               </div>
             </div>

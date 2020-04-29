@@ -16,6 +16,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DatePipe} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { HomePageComponent } from './home-page/home-page.component';
 
 /**
  * Custom angular notifier options
@@ -64,7 +65,8 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    CreateAdvertisementComponent
+    CreateAdvertisementComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
