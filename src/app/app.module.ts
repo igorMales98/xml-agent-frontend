@@ -10,6 +10,8 @@ import {CreateAdvertisementComponent} from './create-advertisement/create-advert
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { RatingComponent } from './rating/rating.component';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -66,6 +68,7 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [
     AppComponent,
     CreateAdvertisementComponent,
+    RatingComponent,
     HomePageComponent
   ],
   imports: [
@@ -77,6 +80,7 @@ const customNotifierOptions: NotifierOptions = {
     RouterModule,
     FormsModule,
     HttpClientModule,
+    TextareaAutosizeModule,
     BrowserAnimationsModule,
     MDBBootstrapModule.forRoot(),
     MatCheckboxModule,
