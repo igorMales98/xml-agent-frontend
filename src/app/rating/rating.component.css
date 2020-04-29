@@ -1,0 +1,7 @@
+.marginsRating {
+    margin: 2%;
+}
+.marginsReply {
+    margin-left: 2%;
+}
+textarea[type="text"]:disabled{background-color:#ecf4ff;}

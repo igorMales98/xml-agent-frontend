@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {CreateAdvertisementComponent} from './create-advertisement/create-advertisement.component';
-import {AppComponent} from './app.component';
+import { RatingComponent } from './rating/rating.component';
 
 
 const routes: Routes = [
-  {path: 'createAdvertisement', component: CreateAdvertisementComponent}
+  {path: 'createAdvertisement', component: CreateAdvertisementComponent},
+  {path: 'rating', component: RatingComponent}
 ];
 
 @NgModule({
