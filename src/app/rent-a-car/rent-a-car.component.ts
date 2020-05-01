@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RentACarService} from './rent-a-car.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {DatePipe} from '@angular/common';
+import {Advertisement} from '../model/advertisement';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -10,8 +13,20 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 export class RentACarComponent implements OnInit {
 
   customerData: FormGroup;
+  startDate: string;
+  endDate: string;
+  minDateStart: string;
+  minDateEnd: string;
+  allAvailableAdvertisements: Advertisement[] = [];
+  image: SafeUrl;
+  imageSrc = 'data:image/png;base64,';
 
-  constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder) {
+  constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
+              private domSanitizer: DomSanitizer) {
+    this.startDate = new Date().toISOString().slice(0, 16);
+    this.endDate = new Date().toISOString().slice(0, 16);
+    this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
+    this.minDateEnd = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
   }
 
   ngOnInit(): void {
@@ -44,4 +59,27 @@ export class RentACarComponent implements OnInit {
     }
   }
 
+  startDateChange() {
+    console.log(this.startDate);
+    this.minDateEnd = this.datePipe.transform(new Date(this.startDate), 'yyyy-MM-ddTHH:mm:ss');
+    this.endDate = this.startDate;
+  }
+
+  endDateChange() {
+    console.log(this.endDate);
+  }
+
+  showAvailableCars() {
+    this.rentACarService.getAllAvailableAdvertisementsInPeriod(this.startDate, this.endDate).subscribe(data => {
+      this.allAvailableAdvertisements = data;
+      this.rentACarService.getAdvertisementPhotos().subscribe(img => {
+        /*const reader = new FileReader();
+        reader.onload = (e) => this.image = e.target.result;
+        reader.readAsDataURL(new Blob([img]));
+        this.imageSrc  = this.imageSrc + this.image;*/
+        const objectURL = 'data:image/png;base64,' + img;
+        this.image = this.domSanitizer.bypassSecurityTrustUrl(objectURL);
+      });
+    });
+  }
 }

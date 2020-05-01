@@ -114,3 +114,64 @@
     </div>
   </div>
 </div>
+
+
+<div class="container register-form pt-4" [hidden]="this.customerData.invalid">
+  <div class="card my-5">
+    <div class="card-body">
+      <div class="note text-center">
+        <h2>Period of rent</h2>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="inputDateFrom">From :</label>
+          <input type="datetime-local" id="inputDateFrom"
+                 class="form-control" [required]="true" [(ngModel)]="startDate" [min]="minDateStart"
+                 onkeydown="return false"
+                 [ngClass]="{'is-invalid': !startDate, 'is-valid': startDate}" (ngModelChange)="startDateChange()"/>
+
+        </div>
+
+        <div class="form-group col-lg-6">
+          <label for="inputDateTo">From :</label>
+          <input type="datetime-local" id="inputDateTo"
+                 class="form-control" [required]="true" [(ngModel)]="endDate" (ngModelChange)="endDateChange()"
+                 onkeydown="return false" [min]="minDateEnd"
+                 [ngClass]="{'is-invalid': !endDate, 'is-valid': endDate}"/>
+        </div>
+
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-success text-center" (click)="showAvailableCars()"> Show available cars
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div>
+  <label class="col-form-label-lg text-center">Available cars </label>
+  <div>
+    <table id="table" class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Price per day</th>
+        <th scope="col">Select</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let advertisement of allAvailableAdvertisements">
+        <td>{{advertisement.id}}</td>
+        <td>{{advertisement.availableFrom}}</td>
+        <td>{{advertisement.availableTo}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<img [src]="image" height="200" width="200">
