@@ -14,9 +14,8 @@ export class RentACarService {
     return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/getInPeriod/' + dateFrom + '/' + dateTo);
   }
 
-  getAdvertisementPhotos() {
-    return this.httpClient.get('http://localhost:8082/api/advertisement/getAdvertisementsPhotos', {responseType: 'blob'});
+  getAdvertisementPhotos(id: string) {
+    return this.httpClient.get('http://localhost:8082/api/advertisement/getAdvertisementsPhotos/' + id);
   }
-
 
 }

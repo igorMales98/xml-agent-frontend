@@ -7,4 +7,6 @@ export class Advertisement {
   availableTo: Date;
   advertiser: User;
   car: Car;
+  // helper for image
+  image: any[] = [];
 }

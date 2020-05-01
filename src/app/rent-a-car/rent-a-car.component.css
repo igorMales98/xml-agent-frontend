@@ -1,0 +1,20 @@
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+
+.cartButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.infoButton {
+  position: absolute;
+  bottom: 12%;
+  right: 0;
+}
+
+#images {
+  padding-top: 30px;
+}

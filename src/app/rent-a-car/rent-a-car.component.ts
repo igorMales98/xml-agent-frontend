@@ -3,7 +3,8 @@ import {RentACarService} from './rent-a-car.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {Advertisement} from '../model/advertisement';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
+import {faCartPlus, faInfo} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -18,8 +19,15 @@ export class RentACarComponent implements OnInit {
   minDateStart: string;
   minDateEnd: string;
   allAvailableAdvertisements: Advertisement[] = [];
-  image: SafeUrl;
-  imageSrc = 'data:image/png;base64,';
+  // image: string;
+
+  image: any[] = [];
+  private readonly imageType: string = 'data:image/PNG;base64,';
+
+  allImagesForAd: string[] = [];
+
+  faCart = faCartPlus;
+  faInfo = faInfo;
 
   constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
               private domSanitizer: DomSanitizer) {
@@ -72,14 +80,19 @@ export class RentACarComponent implements OnInit {
   showAvailableCars() {
     this.rentACarService.getAllAvailableAdvertisementsInPeriod(this.startDate, this.endDate).subscribe(data => {
       this.allAvailableAdvertisements = data;
-      this.rentACarService.getAdvertisementPhotos().subscribe(img => {
-        /*const reader = new FileReader();
-        reader.onload = (e) => this.image = e.target.result;
-        reader.readAsDataURL(new Blob([img]));
-        this.imageSrc  = this.imageSrc + this.image;*/
-        const objectURL = 'data:image/png;base64,' + img;
-        this.image = this.domSanitizer.bypassSecurityTrustUrl(objectURL);
-      });
+
+      for (const advertisement of this.allAvailableAdvertisements) {
+        advertisement.image = [];
+        this.rentACarService.getAdvertisementPhotos(advertisement.id).subscribe(img => {
+          console.log(img as string);
+          const images = img.toString();
+          this.allImagesForAd = images.split(',');
+          for (let i = 0; i < this.allImagesForAd.length; i++) {
+            advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
+          }
+        });
+      }
+
     });
   }
 }

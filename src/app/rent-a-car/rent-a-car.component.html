@@ -116,7 +116,7 @@
 </div>
 
 
-<div class="container register-form pt-4" [hidden]="this.customerData.invalid">
+<div class="container register-form pt-4" [hidden]="!this.customerData.invalid">
   <div class="card my-5">
     <div class="card-body">
       <div class="note text-center">
@@ -152,26 +152,22 @@
   </div>
 </div>
 
-<div>
-  <label class="col-form-label-lg text-center">Available cars </label>
-  <div>
-    <table id="table" class="table table-bordered table-striped">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Price per day</th>
-        <th scope="col">Select</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let advertisement of allAvailableAdvertisements">
-        <td>{{advertisement.id}}</td>
-        <td>{{advertisement.availableFrom}}</td>
-        <td>{{advertisement.availableTo}}</td>
-      </tr>
-      </tbody>
-    </table>
+<div class="container register-form pt-4">
+  <div id="images" class="row img_wrap">
+    <div *ngFor="let advertisement of allAvailableAdvertisements" style="width: 310px; height: 310px;"
+         class="col-md-3">
+      <div class="img_wrp">
+        <img [src]="advertisement.image[0]" height="250" width="250">
+        <div class="text-center">
+          <p>{{advertisement.car.carBrand.name + ' ' + advertisement.car.carModel.name}}</p>
+        </div>
+        <button class="btn-outline-primary btn-sm-sm cartButton">
+          <fa-icon [icon]="faCart"></fa-icon>
+        </button>
+        <button class="btn-outline-info btn-sm-sm infoButton">
+          <fa-icon [icon]="faInfo"></fa-icon>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
-
-<img [src]="image" height="200" width="200">
