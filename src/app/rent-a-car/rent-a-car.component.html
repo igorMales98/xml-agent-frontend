@@ -116,7 +116,7 @@
 </div>
 
 
-<div class="container register-form pt-4" [hidden]="!this.customerData.invalid">
+<div class="container register-form pt-4" [hidden]="this.customerData.invalid">
   <div class="card my-5">
     <div class="card-body">
       <div class="note text-center">
@@ -128,7 +128,7 @@
           <label for="inputDateFrom">From :</label>
           <input type="datetime-local" id="inputDateFrom"
                  class="form-control" [required]="true" [(ngModel)]="startDate" [min]="minDateStart"
-                 onkeydown="return false"
+                 onkeydown="return false" [disabled]="disableRest"
                  [ngClass]="{'is-invalid': !startDate, 'is-valid': startDate}" (ngModelChange)="startDateChange()"/>
 
         </div>
@@ -137,14 +137,17 @@
           <label for="inputDateTo">From :</label>
           <input type="datetime-local" id="inputDateTo"
                  class="form-control" [required]="true" [(ngModel)]="endDate" (ngModelChange)="endDateChange()"
-                 onkeydown="return false" [min]="minDateEnd"
+                 onkeydown="return false" [min]="minDateEnd" [disabled]="disableRest"
                  [ngClass]="{'is-invalid': !endDate, 'is-valid': endDate}"/>
         </div>
 
       </div>
 
       <div class="text-center">
-        <button class="btn btn-success text-center" (click)="showAvailableCars()"> Show available cars
+        <button class="btn btn-success text-center" [hidden]="disableRest" (click)="showAvailableCars()"> Show
+          available cars
+        </button>
+        <button class="btn btn-success text-center" [hidden]="!disableRest" (click)="reset()"> Reset
         </button>
       </div>
 
@@ -152,7 +155,7 @@
   </div>
 </div>
 
-<div class="container register-form pt-4">
+<div class="container register-form pt-4" [hidden]="!disableRest">
   <div id="images" class="row img_wrap">
     <div *ngFor="let advertisement of allAvailableAdvertisements" style="width: 310px; height: 310px;"
          class="col-md-3">
@@ -161,8 +164,9 @@
         <div class="text-center">
           <p>{{advertisement.car.carBrand.name + ' ' + advertisement.car.carModel.name}}</p>
         </div>
-        <button class="btn-outline-primary btn-sm-sm cartButton">
-          <fa-icon [icon]="faCart"></fa-icon>
+        <button class="btn-outline-primary btn-sm-sm cartButton" (click)="addToCart(advertisement)">
+          <fa-icon [icon]="faCart" *ngIf="!checkIfInCart(advertisement)"></fa-icon>
+          <fa-icon [icon]="faCartMinus" *ngIf="checkIfInCart(advertisement)"></fa-icon>
         </button>
         <button class="btn-outline-info btn-sm-sm infoButton"
                 (click)="openMoreInfoModal(myModalMoreInfo, advertisement)">
@@ -171,10 +175,15 @@
       </div>
     </div>
   </div>
+  <div class="text-center" [hidden]="cart.length === 0" (click)="sendRentRequest()">
+    <button class="btn btn-success">
+      Rent cars
+    </button>
+  </div>
 </div>
 
 <div>
-  <ng-template #myModalMoreInfo let-modal class="myCustomModalClass modal-dialog">
+  <ng-template #myModalMoreInfo let-modal class="myCustomModalClass modal-lg">
 
     <div id="imagesAd" class="row img_wrap">
       <div *ngFor="let image of moreInfoAdvertisement.image" style="width: 210px; height: 210px;"
@@ -264,15 +273,16 @@
         <div class="form-group col-lg-6">
           <label for="allowedDistanceInfo">Allowed distance : </label>
           <textarea id="allowedDistanceInfo" disabled
-                    class="md-textarea form-control">{{moreInfoAdvertisement.car.allowedDistance}}</textarea>
+                    class="md-textarea form-control">{{moreInfoAdvertisement.car.allowedDistance + ' km'}}</textarea>
         </div>
       </div>
 
     </div>
 
     <div class="text-center">
-      <button class="btn btn-success">
-        <fa-icon [icon]="faCart"></fa-icon>
+      <button class="btn btn-success" (click)="addToCart(moreInfoAdvertisement)">
+        <fa-icon [icon]="faCart" *ngIf="!checkIfInCart(moreInfoAdvertisement)"></fa-icon>
+        <fa-icon [icon]="faCartMinus" *ngIf="checkIfInCart(moreInfoAdvertisement)"></fa-icon>
       </button>
     </div>
 

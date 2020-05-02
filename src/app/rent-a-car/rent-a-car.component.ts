@@ -4,8 +4,12 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
-import {faCartPlus, faInfo} from '@fortawesome/free-solid-svg-icons';
+import {faCartPlus, faInfo, faCheckDouble} from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NotifierService} from 'angular-notifier';
+import {User} from '../model/user';
+import {RentRequest} from '../model/rentRequest';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -20,6 +24,7 @@ export class RentACarComponent implements OnInit {
   minDateStart: string;
   minDateEnd: string;
   allAvailableAdvertisements: Advertisement[] = [];
+  cart: Advertisement[] = [];
 
   closeResult: string;
   moreInfoAdvertisement: Advertisement;
@@ -29,11 +34,18 @@ export class RentACarComponent implements OnInit {
 
   allImagesForAd: string[] = [];
 
+  notifier: NotifierService;
+
   faCart = faCartPlus;
+  faCartMinus = faCheckDouble;
   faInfo = faInfo;
 
+  disableRest = false;
+
   constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
-              private domSanitizer: DomSanitizer, private modalService: NgbModal) {
+              private domSanitizer: DomSanitizer, private modalService: NgbModal, private notifierService: NotifierService,
+              private router: Router) {
+    this.notifier = notifierService;
     this.startDate = new Date().toISOString().slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
     this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
@@ -71,7 +83,11 @@ export class RentACarComponent implements OnInit {
   }
 
   openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
-    this.modalService.open(myModalMoreInfo, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+    this.modalService.open(myModalMoreInfo, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      windowClass: 'myCustomModalClass'
+    }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -89,10 +105,16 @@ export class RentACarComponent implements OnInit {
     }
   }
 
+  public showNotification(type: string, message: string): void {
+    this.notifier.notify(type, message);
+  }
+
   startDateChange() {
     console.log(this.startDate);
     this.minDateEnd = this.datePipe.transform(new Date(this.startDate), 'yyyy-MM-ddTHH:mm:ss');
-    this.endDate = this.startDate;
+    if (this.startDate > this.endDate) {
+      this.endDate = this.startDate;
+    }
   }
 
   endDateChange() {
@@ -102,6 +124,8 @@ export class RentACarComponent implements OnInit {
   showAvailableCars() {
     this.rentACarService.getAllAvailableAdvertisementsInPeriod(this.startDate, this.endDate).subscribe(data => {
       this.allAvailableAdvertisements = data;
+      this.disableRest = true;
+      this.customerData.disable();
 
       for (const advertisement of this.allAvailableAdvertisements) {
         advertisement.image = [];
@@ -116,5 +140,40 @@ export class RentACarComponent implements OnInit {
       }
 
     });
+  }
+
+  addToCart(advertisement: Advertisement) {
+    const index: number = this.cart.indexOf(advertisement);
+    if (index !== -1) {
+      this.cart.splice(index, 1);
+      console.log(this.cart);
+      this.showNotification('info', 'You removed car from the cart.');
+      return;
+    }
+    this.cart.push(advertisement);
+    console.log(this.cart);
+    this.modalService.dismissAll();
+    this.showNotification('success', 'You added car to the cart.');
+  }
+
+  checkIfInCart(advertisement: Advertisement) {
+    const index: number = this.cart.indexOf(advertisement);
+    return index !== -1;
+  }
+
+  sendRentRequest() {
+    const customer = new User(this.customerData.value.firstName, this.customerData.value.lastName, this.customerData.value.email,
+      this.customerData.value.country, this.customerData.value.city, this.customerData.value.address, this.customerData.value.phone);
+
+    const rentRequest = new RentRequest(this.startDate, this.endDate, customer, this.cart);
+    this.rentACarService.createRentRequest(rentRequest).subscribe(data => {
+      this.showNotification('success', 'Successfully created rent request.');
+      // this.router.navigate(['homePage']);
+    });
+  }
+
+  reset() {
+    this.disableRest = false;
+    this.customerData.enable();
   }
 }
