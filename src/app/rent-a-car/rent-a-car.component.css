@@ -15,6 +15,17 @@
   right: 0;
 }
 
-#images {
+#images, #imagesAd {
   padding-top: 30px;
+}
+
+.myCustomModalClass .modal-dialog {
+  max-width: 565px;
+}
+
+#carBrandInfo, #carModelInfo, #carClassInfo, #fuelTypeInfo, #transmissionTypeInfo, #mileageInfo, #averageRatingInfo,
+#childSeatsInfo, #hasAndroidInfo, #hasAndroidInfo2, #hasCdwInfo, #hasCdwInfo2, #pricelistInfo, #allowedDistanceInfo {
+  resize: none;
+  height: 35px;
+  overflow: hidden;
 }

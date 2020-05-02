@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {RentACarService} from './rent-a-car.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
 import {faCartPlus, faInfo} from '@fortawesome/free-solid-svg-icons';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -19,7 +20,9 @@ export class RentACarComponent implements OnInit {
   minDateStart: string;
   minDateEnd: string;
   allAvailableAdvertisements: Advertisement[] = [];
-  // image: string;
+
+  closeResult: string;
+  moreInfoAdvertisement: Advertisement;
 
   image: any[] = [];
   private readonly imageType: string = 'data:image/PNG;base64,';
@@ -30,7 +33,7 @@ export class RentACarComponent implements OnInit {
   faInfo = faInfo;
 
   constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
-              private domSanitizer: DomSanitizer) {
+              private domSanitizer: DomSanitizer, private modalService: NgbModal) {
     this.startDate = new Date().toISOString().slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
     this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
@@ -64,6 +67,25 @@ export class RentACarComponent implements OnInit {
       };
     } else {
       return null;
+    }
+  }
+
+  openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
+    this.modalService.open(myModalMoreInfo, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.moreInfoAdvertisement = advertisement;
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 

@@ -14,7 +14,7 @@ export class Car {
   allowedDistance: number;
   averageRating: number;
   childSeats: number;
-  collisionDamageWaverExists: boolean;
+  collisionDamageWaiverExists: boolean;
   hasAndroid: boolean;
   mileage: number;
 }
