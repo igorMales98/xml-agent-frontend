@@ -5,13 +5,22 @@ import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { CreateAdvertisementComponent } from './create-advertisement/create-advertisement.component';
-import {CreateAdvertisementService} from './create-advertisement/create-advertisement.service';
+import {CreateAdvertisementComponent} from './create-advertisement/create-advertisement.component';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { CreateReportComponent } from './create-report/create-report.component';
 import {CreateReportService} from './create-report/create-report.service';
+import { RatingComponent } from './rating/rating.component';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {DatePipe} from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { HomePageComponent } from './home-page/home-page.component';
+import { RentACarComponent } from './rent-a-car/rent-a-car.component';
 
 /**
  * Custom angular notifier options
@@ -61,7 +70,11 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [
     AppComponent,
     CreateAdvertisementComponent,
-    CreateReportComponent
+    CreateReportComponent,
+    CreateAdvertisementComponent,
+    RatingComponent,
+    HomePageComponent,
+    RentACarComponent
   ],
   imports: [
     BrowserModule,
@@ -71,9 +84,17 @@ const customNotifierOptions: NotifierOptions = {
     FontAwesomeModule,
     RouterModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TextareaAutosizeModule,
+    BrowserAnimationsModule,
+    MDBBootstrapModule.forRoot(),
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatDatepickerModule
   ],
   providers: [
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

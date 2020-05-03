@@ -1,0 +1,31 @@
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+
+.cartButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.infoButton {
+  position: absolute;
+  bottom: 12%;
+  right: 0;
+}
+
+#images, #imagesAd {
+  padding-top: 30px;
+}
+
+.myCustomModalClass .modal-lg {
+  max-width: 70%;
+}
+
+#carBrandInfo, #carModelInfo, #carClassInfo, #fuelTypeInfo, #transmissionTypeInfo, #mileageInfo, #averageRatingInfo,
+#childSeatsInfo, #hasAndroidInfo, #hasAndroidInfo2, #hasCdwInfo, #hasCdwInfo2, #pricelistInfo, #allowedDistanceInfo {
+  resize: none;
+  height: 35px;
+  overflow: hidden;
+}
