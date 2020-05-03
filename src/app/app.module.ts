@@ -19,6 +19,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {DatePipe} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HomePageComponent } from './home-page/home-page.component';
+import { RentACarComponent } from './rent-a-car/rent-a-car.component';
 
 /**
  * Custom angular notifier options
@@ -69,7 +70,8 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     CreateAdvertisementComponent,
     RatingComponent,
-    HomePageComponent
+    HomePageComponent,
+    RentACarComponent
   ],
   imports: [
     BrowserModule,

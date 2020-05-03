@@ -295,6 +295,7 @@ export class CreateAdvertisementComponent implements OnInit {
     const index: number = this.imgURLS.indexOf(image);
     if (index !== -1) {
       this.imgURLS.splice(index, 1);
+      this.selectedFiles.splice(index, 1);
     }
   }
 }
