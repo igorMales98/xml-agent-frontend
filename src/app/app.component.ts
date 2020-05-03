@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faAd, faStar, faComments} from '@fortawesome/free-solid-svg-icons';
+import {faAd, faStar, faComments, faCar} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   faCreateAd = faAd;
   faStar = faStar;
   faMessages = faComments;
+  faCar = faCar;
 
   constructor(private router: Router) {
   }
