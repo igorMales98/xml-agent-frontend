@@ -41,6 +41,7 @@ export class RentACarComponent implements OnInit {
   faInfo = faInfo;
 
   disableRest = false;
+  loadContent = false;
 
   constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
               private domSanitizer: DomSanitizer, private modalService: NgbModal, private notifierService: NotifierService,
@@ -121,10 +122,10 @@ export class RentACarComponent implements OnInit {
     console.log(this.endDate);
   }
 
-  showAvailableCars() {
+  showAvailableCars(el: HTMLElement) {
+    this.loadContent = true;
     this.rentACarService.getAllAvailableAdvertisementsInPeriod(this.startDate, this.endDate).subscribe(data => {
       this.allAvailableAdvertisements = data;
-      this.disableRest = true;
       this.customerData.disable();
 
       for (const advertisement of this.allAvailableAdvertisements) {
@@ -138,7 +139,15 @@ export class RentACarComponent implements OnInit {
           }
         });
       }
-
+      el.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        this.loadContent = false;
+        this.disableRest = true;
+        if (this.allAvailableAdvertisements.length === 0) {
+          this.showNotification('warning', 'There are no advertisements for selected period.');
+          this.reset();
+        }
+      }, 3000);
     });
   }
 
@@ -176,4 +185,5 @@ export class RentACarComponent implements OnInit {
     this.disableRest = false;
     this.customerData.enable();
   }
+
 }

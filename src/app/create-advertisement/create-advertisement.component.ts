@@ -7,10 +7,10 @@ import {FuelType} from '../model/fuelType';
 import {TransmissionType} from '../model/transmissionType';
 import {CarClass} from '../model/carClass';
 import {ModalDismissReasons, NgbDatepickerConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Pricelist} from '../model/pricelist';
 import {DatePipe} from '@angular/common';
-import {faCalendar, faWindowClose} from '@fortawesome/free-solid-svg-icons';
+import {faCalendar, faWindowClose, faPlus, faMinus} from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import {CreateAdvertisements} from '../model/createAdvertisements';
 import {NotifierService} from 'angular-notifier';
@@ -59,6 +59,8 @@ export class CreateAdvertisementComponent implements OnInit {
 
   closeResult: string;
   advertisementForm: FormGroup;
+  numberOfDiscounts = 0;
+  discountForm: FormGroup;
 
   todayDate: any;
   minDate = undefined;
@@ -78,6 +80,8 @@ export class CreateAdvertisementComponent implements OnInit {
 
   faCalendar = faCalendar;
   faClose = faWindowClose;
+  faPlus = faPlus;
+  faMinus = faMinus;
 
   notifier: NotifierService;
 
@@ -98,16 +102,20 @@ export class CreateAdvertisementComponent implements OnInit {
     };
   }
 
-  get adFb() {
-    return this.advertisementForm.controls;
-  }
-
   ngOnInit(): void {
     this.advertisementForm = this.formBuilder.group({
       mileage: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(1),
         Validators.maxLength(10), Validators.min(0)]],
       childSeats: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(5), Validators.min(0)]],
       allowedDistance: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.maxLength(6), Validators.minLength(1)]]
+    });
+    this.discountForm = this.formBuilder.group({
+      days0: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(90), Validators.min(1)]],
+      days1: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(90), Validators.min(1)]],
+      days2: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(90), Validators.min(1)]],
+      discount0: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(99), Validators.min(1)]],
+      discount1: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(99), Validators.min(1)]],
+      discount2: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(99), Validators.min(1)]],
     });
 
     this.createAdvertisementService.getAllCarBrands().subscribe(data => {
@@ -127,8 +135,20 @@ export class CreateAdvertisementComponent implements OnInit {
     });
   }
 
+  get adFb() {
+    return this.advertisementForm.controls;
+  }
+
+  get dsF() {
+    return this.discountForm.controls;
+  }
+
   public showNotification(type: string, message: string): void {
     this.notifier.notify(type, message);
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
 
   getBrandModels(carBrand: CarBrand) {
@@ -272,16 +292,39 @@ export class CreateAdvertisementComponent implements OnInit {
     if (this.isUnlimited) {
       this.advertisementForm.value.allowedDistance = 1000000;
     }
+    const discountMap = new Map<number, number>();
+    if (this.dsF.days0.valid && this.dsF.discount0.valid) {
+      discountMap.set(this.discountForm.value.days0, this.discountForm.value.discount0);
+    }
+
+    if (this.dsF.days1.valid && this.dsF.discount1.valid) {
+      if (!discountMap.has(this.discountForm.value.days1)) {
+        discountMap.set(this.discountForm.value.days1, this.discountForm.value.discount1);
+      }
+    }
+
+    if (this.dsF.days2.valid && this.dsF.discount2.valid) {
+      if (!discountMap.has(this.discountForm.value.days2)) {
+        discountMap.set(this.discountForm.value.days2, this.discountForm.value.discount2);
+      }
+    }
+    console.log(discountMap);
+    const convMap = {};
+    discountMap.forEach((val: number, key: number) => {
+      convMap[key] = val;
+    });
+    console.log(convMap);
     const createAdvertisement = new CreateAdvertisements(this.finalCarBrand, this.finalCarModel, this.finalCarClass, this.finalFuelType,
       this.finalTransmissionType, this.finalPricelist, this.d1,
       this.d2, this.advertisementForm.value.mileage,
-      this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance);
+      this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance, convMap);
     this.createAdvertisementService.createAdvertisement(this.selectedFiles, createAdvertisement);
     this.showNotification('success', 'Successfully created an advertisement.');
-    this.router.navigate(['/homePage']);
+    // this.router.navigate(['/homePage']);
   }
 
   changeCDW() {
+    console.log('adfasf' + this.discountForm.value.days0);
     this.hasACDW = this.hasACDW !== true;
     console.log(this.hasACDW);
   }
@@ -296,6 +339,34 @@ export class CreateAdvertisementComponent implements OnInit {
     if (index !== -1) {
       this.imgURLS.splice(index, 1);
       this.selectedFiles.splice(index, 1);
+    }
+  }
+
+  addDiscountRow() {
+    this.numberOfDiscounts += 1;
+  }
+
+  removeDiscountRow() {
+    this.numberOfDiscounts -= 1;
+  }
+
+  checkValidDays(i: number) {
+    if (i === 0) {
+      return this.dsF.days0.valid && this.dsF.days0.touched;
+    } else if (i === 1) {
+      return this.dsF.days1.valid && this.dsF.days1.touched;
+    } else if (i === 2) {
+      return this.dsF.days2.valid && this.dsF.days2.touched;
+    }
+  }
+
+  checkValidDiscount(i: number) {
+    if (i === 0) {
+      return this.dsF.discount0.valid && this.dsF.discount0.touched;
+    } else if (i === 1) {
+      return this.dsF.discount0.valid && this.dsF.discount1.touched;
+    } else if (i === 2) {
+      return this.dsF.discount0.valid && this.dsF.discount2.touched;
     }
   }
 }
