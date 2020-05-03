@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "xml-agent-front"
+  "defaultProject": "xml-agent-front",
+  "cli": {
+    "analytics": "a30c287a-dc6b-47f7-ad69-f4aa93d84c34"
+  }
 }

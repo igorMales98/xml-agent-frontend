@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +10,8 @@ import {CreateAdvertisementService} from './create-advertisement/create-advertis
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { CreateReportComponent } from './create-report/create-report.component';
+import {CreateReportService} from './create-report/create-report.service';
 
 /**
  * Custom angular notifier options
@@ -59,7 +60,8 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    CreateAdvertisementComponent
+    CreateAdvertisementComponent,
+    CreateReportComponent
   ],
   imports: [
     BrowserModule,
