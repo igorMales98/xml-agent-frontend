@@ -13,6 +13,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { RatingComponent } from './rating/rating.component';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import { MessagesComponent } from './messages/messages.component';
 
 /**
  * Custom angular notifier options
@@ -62,7 +63,8 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [
     AppComponent,
     CreateAdvertisementComponent,
-    RatingComponent
+    RatingComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
