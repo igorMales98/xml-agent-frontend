@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +19,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {DatePipe} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HomePageComponent } from './home-page/home-page.component';
+import { PricelistComponent } from './pricelist/pricelist.component';
 import { RentACarComponent } from './rent-a-car/rent-a-car.component';
 
 /**
@@ -71,6 +71,8 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     CreateAdvertisementComponent,
     RatingComponent,
+    HomePageComponent,
+    PricelistComponent,
     MessagesComponent,
     HomePageComponent,
     RentACarComponent
