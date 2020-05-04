@@ -12,6 +12,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { RatingComponent } from './rating/rating.component';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import { MessagesComponent } from './messages/messages.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -20,6 +21,7 @@ import {DatePipe} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PricelistComponent } from './pricelist/pricelist.component';
+import { RentACarComponent } from './rent-a-car/rent-a-car.component';
 
 /**
  * Custom angular notifier options
@@ -72,6 +74,9 @@ const customNotifierOptions: NotifierOptions = {
     RatingComponent,
     HomePageComponent,
     PricelistComponent
+    MessagesComponent,
+    HomePageComponent,
+    RentACarComponent
   ],
   imports: [
     BrowserModule,
