@@ -309,9 +309,9 @@ export class CreateAdvertisementComponent implements OnInit {
       }
     }
     console.log(discountMap);
-    const convMap = {};
+    let convMap = '';
     discountMap.forEach((val: number, key: number) => {
-      convMap[key] = val;
+      convMap += val + '?' + key + ':';
     });
     console.log(convMap);
     const createAdvertisement = new CreateAdvertisements(this.finalCarBrand, this.finalCarModel, this.finalCarClass, this.finalFuelType,

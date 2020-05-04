@@ -18,11 +18,11 @@ export class CreateAdvertisements {
   childSeats: number;
   hasACDW: boolean;
   allowedDistance: number;
-  discount: any;
+  discount: string;
 
   constructor(carBrand: CarBrand, carModel: CarModel, carClass: CarClass, fuelType: FuelType, transmissionType: TransmissionType,
               pricelist: Pricelist, availableFrom: Date, availableTo: Date, mileage: number, childSeats: number, hasACDW: boolean,
-              allowedDistance: number, discount: any) {
+              allowedDistance: number, discount: string) {
     this.carBrand = carBrand;
     this.carModel = carModel;
     this.carClass = carClass;
