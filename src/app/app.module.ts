@@ -10,7 +10,6 @@ import {CreateAdvertisementComponent} from './create-advertisement/create-advert
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { RatingComponent } from './rating/rating.component';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { MessagesComponent } from './messages/messages.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -70,7 +69,6 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [
     AppComponent,
     CreateAdvertisementComponent,
-    RatingComponent,
     MessagesComponent,
     HomePageComponent,
     RentACarComponent
