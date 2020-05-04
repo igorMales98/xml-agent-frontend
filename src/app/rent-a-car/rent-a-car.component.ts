@@ -4,12 +4,13 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
-import {faCartPlus, faInfo, faCheckDouble} from '@fortawesome/free-solid-svg-icons';
+import {faCartPlus, faInfo, faCheckDouble, faCommentAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {RentRequest} from '../model/rentRequest';
 import {Router} from '@angular/router';
+import {Comment} from '../model/comment'
 
 @Component({
   selector: 'app-rent-a-car',
@@ -25,6 +26,7 @@ export class RentACarComponent implements OnInit {
   minDateEnd: string;
   allAvailableAdvertisements: Advertisement[] = [];
   cart: Advertisement[] = [];
+  comments: Comment[] = [];
 
   closeResult: string;
   moreInfoAdvertisement: Advertisement;
@@ -39,6 +41,8 @@ export class RentACarComponent implements OnInit {
   faCart = faCartPlus;
   faCartMinus = faCheckDouble;
   faInfo = faInfo;
+  faComment = faCommentAlt;
+  faUser = faUser;
 
   disableRest = false;
 
@@ -83,6 +87,23 @@ export class RentACarComponent implements OnInit {
   }
 
   openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
+    this.modalService.open(myModalMoreInfo, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      windowClass: 'myCustomModalClass'
+    }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.moreInfoAdvertisement = advertisement;
+  }
+
+  openComments(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
+    this.comments = [];
+    this.rentACarService.getComments(advertisement.id).subscribe(data => {
+      this.comments = data;
+    });
     this.modalService.open(myModalMoreInfo, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',

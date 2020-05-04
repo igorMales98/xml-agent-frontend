@@ -5,7 +5,6 @@ import {HomePageService} from './home-page.service';
 import {faInfo, faCommentAlt, faComments, faUser} from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Comment} from '../model/comment';
-//TODO: dodati pravi currentRate
 
 @Component({
   selector: 'app-home-page',
@@ -36,7 +35,6 @@ export class HomePageComponent implements OnInit {
 
       for (const advertisement of this.allAdvertisements) {
         advertisement.image = [];
-        advertisement.currentRate = 3;
         this.homePageService.getAdvertisementPhotos(advertisement.id).subscribe(img => {
           console.log(img as string);
           const images = img.toString();

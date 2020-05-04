@@ -9,7 +9,6 @@ export class Advertisement {
   advertiser: User;
   car: Car;
   pricelist: Pricelist;
-  currentRate: number;
 
   // helper for image
   image: any[] = [];
