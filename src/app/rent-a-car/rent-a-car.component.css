@@ -11,8 +11,13 @@
 
 .infoButton {
   position: absolute;
-  bottom: 12%;
-  right: 0;
+  bottom: 22%;
+  right: 1%;
+}
+.commentButton {
+  position: absolute;
+  bottom: 22%;
+  right: 12%;
 }
 
 #images, #imagesAd {
@@ -28,4 +33,26 @@
   resize: none;
   height: 35px;
   overflow: hidden;
+}
+textarea[type="text"]:disabled{
+  color: black;
+  background-color:#d2eff3;
+  resize: none;
+}
+.star {
+position: relative;
+display: inline-block;
+font-size: 2rem;
+color: #b8ebf3;
+}
+
+.full {
+color: #17a2b8;
+}
+
+.half {
+position: absolute;
+display: inline-block;
+overflow: hidden;
+color: #17a2b8;
 }
