@@ -144,7 +144,7 @@
       </div>
 
       <div class="text-center">
-        <button class="btn btn-success text-center" [hidden]="disableRest" (click)="showAvailableCars()"> Show
+        <button class="btn btn-success text-center" [hidden]="disableRest" (click)="showAvailableCars(ads)"> Show
           available cars
         </button>
         <button class="btn btn-success text-center" [hidden]="!disableRest" (click)="reset()"> Reset
@@ -309,7 +309,7 @@
 
 <div>
   <ng-template #myModalComments let-modal class="myCustomModalClass modal-lg">
-    
+
     <div *ngIf="comments.length==0" style="text-align: center;">There are no comments for this ad.</div>
     <div *ngFor="let comment of comments">
        <div class="chip">
@@ -327,6 +327,21 @@
           </div>
       </div>
       </div>
-    
+
   </ng-template>
+</div>
+<div class="container" [hidden]="!loadContent" id="animationDiv" #ads>
+  <div class="row">
+    <div id="loader">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="loading"></div>
+    </div>
+  </div>
 </div>
