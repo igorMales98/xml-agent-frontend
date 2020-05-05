@@ -150,6 +150,34 @@
                 </button>
               </div>
 
+              <div id="divDiscounts" class="border-bottom border-success">
+                <label class="col-form-label-lg">Define discounts: </label>
+                <button (click)="addDiscountRow()" [hidden]="numberOfDiscounts === 3" style="margin-left: 20px;"
+                        class="btn-outline-primary">
+                  <fa-icon [icon]="faPlus"></fa-icon>
+                </button>
+                <button (click)="removeDiscountRow()" [hidden]="numberOfDiscounts === 0" style="margin-left: 20px;"
+                        class="btn-outline-danger">
+                  <fa-icon [icon]="faMinus"></fa-icon>
+                </button>
+                <p style="color: red;">If you enter invalid discount it will not be saved</p>
+                <form [formGroup]="discountForm">
+                  <div *ngFor="let discount of counter(numberOfDiscounts); let i = index" style="display: flex;">
+                    <label class="col-form-label-lg" for="forDays"> Days : </label>
+                    <input id="forDays" class="form-control" style="margin-left: 20px; width: 100px;"
+                           [ngClass]="{'is-invalid': !checkValidDays(i) , 'is-valid': checkValidDays(i)}"
+                           formControlName="{{'days' + i}}"
+                           placeholder="Enter number of days">
+                    <label class="col-form-label-lg" for="forDiscounts" style="margin-left: 20px;">
+                      Discount : </label>
+                    <input id="forDiscounts" class="form-control" style="margin-left: 20px;  width: 100px;"
+                           [ngClass]="{'is-invalid': !checkValidDiscount(i) , 'is-valid': checkValidDiscount(i)}"
+                           formControlName="{{'discount' + i}}"
+                           placeholder="Enter discount in %">
+                  </div>
+                </form>
+              </div>
+
 
               <div id="div9" class="border-bottom border-success">
                 <label for="hasCDW" class="col-form-label-lg">Has a <i>CDW</i> : </label>

@@ -4,12 +4,13 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
-import {faCartPlus, faInfo, faCheckDouble} from '@fortawesome/free-solid-svg-icons';
+import {faCartPlus, faInfo, faCheckDouble, faCommentAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {RentRequest} from '../model/rentRequest';
 import {Router} from '@angular/router';
+import {Comment} from '../model/comment'
 
 @Component({
   selector: 'app-rent-a-car',
@@ -25,6 +26,7 @@ export class RentACarComponent implements OnInit {
   minDateEnd: string;
   allAvailableAdvertisements: Advertisement[] = [];
   cart: Advertisement[] = [];
+  comments: Comment[] = [];
 
   closeResult: string;
   moreInfoAdvertisement: Advertisement;
@@ -39,8 +41,11 @@ export class RentACarComponent implements OnInit {
   faCart = faCartPlus;
   faCartMinus = faCheckDouble;
   faInfo = faInfo;
+  faComment = faCommentAlt;
+  faUser = faUser;
 
   disableRest = false;
+  loadContent = false;
 
   constructor(private rentACarService: RentACarService, private formBuilder: FormBuilder, private datePipe: DatePipe,
               private domSanitizer: DomSanitizer, private modalService: NgbModal, private notifierService: NotifierService,
@@ -95,6 +100,23 @@ export class RentACarComponent implements OnInit {
     this.moreInfoAdvertisement = advertisement;
   }
 
+  openComments(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
+    this.comments = [];
+    this.rentACarService.getComments(advertisement.id).subscribe(data => {
+      this.comments = data;
+    });
+    this.modalService.open(myModalMoreInfo, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      windowClass: 'myCustomModalClass'
+    }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.moreInfoAdvertisement = advertisement;
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -121,10 +143,10 @@ export class RentACarComponent implements OnInit {
     console.log(this.endDate);
   }
 
-  showAvailableCars() {
+  showAvailableCars(el: HTMLElement) {
+    this.loadContent = true;
     this.rentACarService.getAllAvailableAdvertisementsInPeriod(this.startDate, this.endDate).subscribe(data => {
       this.allAvailableAdvertisements = data;
-      this.disableRest = true;
       this.customerData.disable();
 
       for (const advertisement of this.allAvailableAdvertisements) {
@@ -138,7 +160,15 @@ export class RentACarComponent implements OnInit {
           }
         });
       }
-
+      el.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        this.loadContent = false;
+        this.disableRest = true;
+        if (this.allAvailableAdvertisements.length === 0) {
+          this.showNotification('warning', 'There are no advertisements for selected period.');
+          this.reset();
+        }
+      }, 3000);
     });
   }
 
@@ -176,4 +206,5 @@ export class RentACarComponent implements OnInit {
     this.disableRest = false;
     this.customerData.enable();
   }
+
 }
