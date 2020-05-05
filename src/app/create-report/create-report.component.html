@@ -1,1 +1,96 @@
-<p>create-report works!</p>
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="container">
+  <h2 align="center">Create a report on completed rentals </h2>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Rent request</th>
+      <th>Advertisement</th>
+      <th>Report</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor = "let request of allRentRequests" >
+      <td>{{request.reservedFrom}} : {{request.reservedTo}}</td>
+      <td><tr *ngFor = "let advertisement of request.advertisementsForRent">
+        {{advertisement.car.carBrand.name}} {{advertisement.car.carModel.name}}</tr>
+      </td>
+      <td><tr *ngFor = "let advertisement of request.advertisementsForRent"><button class="btn btn-primary btn-block" (click)="openMoreInfoModal(myModalMoreInfo, advertisement)">Write report</button></tr></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <ng-template #myModalMoreInfo let-modal class="myCustomModalClass modal-lg">
+
+    <div id="moreInfo">
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="carBrandInfo">Car Brand : </label>
+          <textarea id="carBrandInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.carBrand.name}}</textarea>
+        </div>
+        <div class="form-group col-lg-6">
+          <label for="carModelInfo">Car Model : </label>
+          <textarea id="carModelInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.carModel.name}}</textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="carClassInfo">Car Class : </label>
+          <textarea id="carClassInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.carClass.name}}</textarea>
+        </div>
+        <div class="form-group col-lg-6">
+          <label for="fuelTypeInfo">Fuel Type : </label>
+          <textarea id="fuelTypeInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.fuelType.name}}</textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="transmissionTypeInfo">Transmission Type : </label>
+          <textarea id="transmissionTypeInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.transmissionType.name}}</textarea>
+        </div>
+        <div class="form-group col-lg-6">
+          <label for="mileageInfo">Mileage : </label>
+          <textarea id="mileageInfo" disabled
+                    class="md-textarea form-control">{{advertisement.car.mileage}}</textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="km">Distance during rent (km): </label>
+          <textarea [(ngModel)]="km" id="km"
+                    class="md-textarea form-control" required></textarea>
+          <div class="invalid-feedback">
+            Please enter a km.
+          </div>
+        </div>
+        <div class="form-group col-lg-6 ">
+          <label for="additionalInformation">Additional Information : </label>
+          <textarea [(ngModel)]="additionalInformation" id="additionalInformation" 
+                    class="md-textarea form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-success" (click)="createReport()"> Write </button>
+      </div>
+      
+    </div>
+
+  </ng-template>
+</div>
+
+</body>
+</html>
