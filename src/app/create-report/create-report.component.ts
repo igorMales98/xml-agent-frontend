@@ -1,11 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { RentRequest } from '../model/rentRequest';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {RentRequest} from '../model/rentRequest';
 import {CreateReportService} from './create-report.service';
-import { NotifierService } from 'angular-notifier';
-import { Advertisement } from '../model/advertisement';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Report } from '../model/report';
-import { Router } from '@angular/router';
+import {NotifierService} from 'angular-notifier';
+import {Advertisement} from '../model/advertisement';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Report} from '../model/report';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-report',
@@ -19,12 +19,12 @@ export class CreateReportComponent implements OnInit {
   advertisement: Advertisement;
   closeResult: string;
   rentRequest: RentRequest;
-  km : number;
-  additionalInformation : string;
+  km: number;
+  additionalInformation: string;
 
   constructor(private createReportService: CreateReportService, private modalService: NgbModal, private router: Router, private notifierService: NotifierService) {
     this.notifier = notifierService;
-   }
+  }
 
   ngOnInit(): void {
     this.createReportService.getAllRentRequests().subscribe(data => {
@@ -33,7 +33,8 @@ export class CreateReportComponent implements OnInit {
 
   }
 
-  openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement1: Advertisement) {
+  openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement1: Advertisement, request: RentRequest) {
+    this.rentRequest = request;
     this.advertisement = advertisement1;
     this.modalService.open(myModalMoreInfo, {
       ariaLabelledBy: 'modal-basic-title',
@@ -60,8 +61,8 @@ export class CreateReportComponent implements OnInit {
     this.notifier.notify(type, message);
   }
 
-  createReport(){
-    const report = new Report(this.advertisement.car, this.km, this.additionalInformation);
+  createReport() {
+    const report = new Report(this.advertisement.car, this.km, this.additionalInformation, this.rentRequest);
 
     this.createReportService.createReport(report).subscribe(data => {
       this.showNotification('success', 'Successfully created report.');
