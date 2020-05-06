@@ -184,13 +184,13 @@ export class StatisticsComponent implements OnInit {
           data: this.rents,
           label: 'Times rated'
         }];
-      }, 100);
+      }, 200);
       setTimeout(() => {
         this.chartDatasets3 = [{
           data: this.mileages,
           label: 'Rent mileage'
         }];
-      }, 200);
+      }, 400);
 
     });
   }
