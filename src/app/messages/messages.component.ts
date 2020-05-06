@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {faUserCircle} from '@fortawesome/free-regular-svg-icons';
 import { MessagesService } from './messages.service';
 import { User } from '../model/user';
-//TODO: dodati fiksnu velicinu divova sa scrollom
+import {Message} from '../model/message';
+//TODO: scroll i refresh
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -10,45 +11,44 @@ import { User } from '../model/user';
 })
 export class MessagesComponent implements OnInit {
   faUser = faUserCircle;
-  agent: User;
-  customers: User[];
-  chats = [
-    {"firstName": "Mira",
-     "lastName": "Miric" 
-    },
-    {"firstName": "Mare",
-     "lastName": "Maric" 
-    },
-    {"firstName": "Aca",
-     "lastName": "Acic" 
-    }
-  ];
-  messages = [
-    {"text": "Mira", 
-     "type": "customer"
-    },
-    {"text": "tekkkkkkkst", 
-    "type": "customer"
-    },
-    {"text": "blablabla",
-    "type": "agent" 
-    },
-    {"text": "blablabla", 
-    "type": "customer"
-    },
-    {"text": "blablabla", 
-    "type": "agent"
-    },
-    {"text": "blablabla", 
-    "type": "customer"
-    }
-  ];
+  customers: User[] = [];
+  messages: Message[] = [];
+  clickedCustomer: User;
+  agentId = '1';
+  show: boolean;
+
   constructor(private messagesService: MessagesService) { }
 
   ngOnInit(): void {
-    this.messagesService.getReservedCustomers(this.agent.id).subscribe(data => {
+    this.messagesService.getReservedCustomers(this.agentId).subscribe(data => {
       this.customers = data
     });
   }
 
+  showMessages(customer: User) {
+    this.messagesService.getMessages(this.agentId,customer.id).subscribe(data => {
+      this.messages = data;
+      for (let i=0;i<this.messages.length;i++) {
+        this.messages[i].messageDate = this.formatDate(this.messages[i].messageDate);
+        if (this.messages[i].sender.id == this.agentId)
+          this.messages[i].type = "agent";
+        else 
+          this.messages[i].type = "customer";
+      }
+      this.clickedCustomer = customer;
+      (<HTMLInputElement>document.getElementById("newMessage")).value = '';
+    });
+  }
+
+  sendMessage() {
+    let body = (<HTMLInputElement>document.getElementById("newMessage")).value;
+    let message = new Message(body,this.clickedCustomer);
+    this.messagesService.sendMessage(message).subscribe();
+  }
+ 
+  formatDate(oldDate: string) {
+    let newDate;
+    newDate = (+oldDate[3]<10?("0"+oldDate[3]):oldDate[3])+":"+(+oldDate[4]<10?("0"+oldDate[4]):oldDate[4])+' '+oldDate[2]+'.'+oldDate[1]+'.'+oldDate[0];
+    return newDate;
+  }
 }

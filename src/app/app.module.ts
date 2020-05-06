@@ -11,8 +11,6 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { CreateReportComponent } from './create-report/create-report.component';
-import {CreateReportService} from './create-report/create-report.service';
-import { RatingComponent } from './rating/rating.component';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { MessagesComponent } from './messages/messages.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
