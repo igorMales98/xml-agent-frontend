@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -10,20 +9,19 @@ import {CreateAdvertisementComponent} from './create-advertisement/create-advert
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { CreateReportComponent } from './create-report/create-report.component';
-import {CreateReportService} from './create-report/create-report.service';
-import { RatingComponent } from './rating/rating.component';
-import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
-import { MessagesComponent } from './messages/messages.component';
+import {TextareaAutosizeModule} from 'ngx-textarea-autosize';
+import {MessagesComponent} from './messages/messages.component';
+import {CreateReportComponent} from './create-report/create-report.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {MDBBootstrapModule, ChartsModule} from 'angular-bootstrap-md';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DatePipe} from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { HomePageComponent } from './home-page/home-page.component';
-import { PricelistComponent } from './pricelist/pricelist.component';
-import { RentACarComponent } from './rent-a-car/rent-a-car.component';
+import {HomePageComponent} from './home-page/home-page.component';
+import {PricelistComponent} from './pricelist/pricelist.component';
+import {RentACarComponent} from './rent-a-car/rent-a-car.component';
+import {StatisticsComponent} from './statistics/statistics.component';
 
 /**
  * Custom angular notifier options
@@ -74,12 +72,12 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     CreateAdvertisementComponent,
     CreateReportComponent,
-    CreateAdvertisementComponent,
     HomePageComponent,
     PricelistComponent,
     MessagesComponent,
     HomePageComponent,
-    RentACarComponent
+    RentACarComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +94,8 @@ const customNotifierOptions: NotifierOptions = {
     MatCheckboxModule,
     ReactiveFormsModule,
     MatRadioModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    ChartsModule
   ],
   providers: [
     DatePipe
