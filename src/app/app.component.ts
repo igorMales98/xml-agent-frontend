@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'xml-agent-front';
 
   faCreateAd = faAd;
+  faReport = faChartBar;
   faStar = faStar;
   faEuroSign = faEuroSign;
   faMessages = faComments;
