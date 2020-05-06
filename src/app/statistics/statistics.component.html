@@ -25,7 +25,7 @@
 <br/>
 <br/>
 
-<div>
+<div id="timesRated">
   <div class="text-center">
     <h1><i> <b> Statistics for car times rented. </b> </i></h1>
   </div>
@@ -35,6 +35,33 @@
             width="150"
             [chartType]="chartType"
             [datasets]="chartDatasets2"
+            [labels]="chartLabels2"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div>
+  <div class="text-center">
+    <h1><i> <b> Statistics for car rent mileage </b> </i></h1>
+  </div>
+  <div style="display: block;">
+    <canvas mdbChart
+            height="50"
+            width="150"
+            [chartType]="chartType"
+            [datasets]="chartDatasets3"
             [labels]="chartLabels2"
             [colors]="chartColors"
             [options]="chartOptions"

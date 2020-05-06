@@ -17,4 +17,8 @@ export class StatisticsService {
   getTimesRentedForACar(id: string) {
     return this.httpClient.get<number>('http://localhost:8082/api/advertisement/getTimesRented/' + id);
   }
+
+  getRentMileageForACar(id: string) {
+    return this.httpClient.get<number>('http://localhost:8082/api/report/getRentMileage/' + id);
+  }
 }

@@ -4,21 +4,28 @@
 
 <div class="container">
   <h2 align="center">Create a report on completed rentals </h2>
-  <table class="table table-bordered">
-    <thead>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
     <tr>
-      <th>Rent request</th>
-      <th>Advertisement</th>
-      <th>Report</th>
+      <th scope="col">Rent request</th>
+      <th scope="col">Advertisement</th>
+      <th scope="col">Report</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor = "let request of allRentRequests" >
+    <tr *ngFor="let request of allRentRequests">
       <td>{{request.reservedFrom}} : {{request.reservedTo}}</td>
-      <td><tr *ngFor = "let advertisement of request.advertisementsForRent">
-        {{advertisement.car.carBrand.name}} {{advertisement.car.carModel.name}}</tr>
-      </td>
-      <td><tr *ngFor = "let advertisement of request.advertisementsForRent"><button class="btn btn-primary btn-block" (click)="openMoreInfoModal(myModalMoreInfo, advertisement)">Write report</button></tr></td>
+      <td>
+    <tr *ngFor="let advertisement of request.advertisementsForRent">
+      {{advertisement.car.carBrand.name}} {{advertisement.car.carModel.name}}</tr>
+    </td>
+    <td>
+      <tr *ngFor="let advertisement of request.advertisementsForRent">
+        <button class="btn btn-primary btn-block" (click)="openMoreInfoModal(myModalMoreInfo, advertisement, request)">Write
+          report
+        </button>
+      </tr>
+    </td>
     </tr>
     </tbody>
   </table>
@@ -78,15 +85,15 @@
         </div>
         <div class="form-group col-lg-6 ">
           <label for="additionalInformation">Additional Information : </label>
-          <textarea [(ngModel)]="additionalInformation" id="additionalInformation" 
+          <textarea [(ngModel)]="additionalInformation" id="additionalInformation"
                     class="md-textarea form-control"></textarea>
         </div>
       </div>
 
       <div class="text-center">
-        <button class="btn btn-success" (click)="createReport()"> Write </button>
+        <button class="btn btn-success" (click)="createReport()"> Write</button>
       </div>
-      
+
     </div>
 
   </ng-template>

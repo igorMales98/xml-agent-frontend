@@ -20,4 +20,5 @@ export class Car {
 
   // helper fields
   timesRented: number;
+  rentMileage: number;
 }

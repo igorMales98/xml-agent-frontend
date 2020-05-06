@@ -23,6 +23,10 @@ export class StatisticsComponent implements OnInit {
     {label: 'Times rented'}
   ];
 
+  public chartDatasets3: Array<any> = [
+    {label: 'Rent mileage'}
+  ];
+
   public chartLabels: Array<any> = [];
 
   public chartLabels2: Array<any> = [];
@@ -152,6 +156,7 @@ export class StatisticsComponent implements OnInit {
   carsForRatingStatistics: Car[] = [];
   ratings: any[] = [];
   rents: any[] = [];
+  mileages: any[] = [];
 
   ngOnInit(): void {
     this.statisticsService.getCarsForRatingStatistics().subscribe(data => {
@@ -163,6 +168,10 @@ export class StatisticsComponent implements OnInit {
           car.timesRented = timesRented;
           this.rents.push(timesRented);
           this.chartLabels2.push(car.carBrand.name + ' ' + car.carModel.name);
+        });
+        this.statisticsService.getRentMileageForACar(car.id).subscribe(rentMileage => {
+          car.rentMileage = rentMileage;
+          this.mileages.push(rentMileage);
         });
       }
       this.ratings.push(0);
@@ -176,6 +185,12 @@ export class StatisticsComponent implements OnInit {
           label: 'Times rated'
         }];
       }, 100);
+      setTimeout(() => {
+        this.chartDatasets3 = [{
+          data: this.mileages,
+          label: 'Rent mileage'
+        }];
+      }, 200);
 
     });
   }
