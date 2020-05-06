@@ -14,16 +14,24 @@
     </thead>
     <tbody>
     <tr *ngFor="let request of allRentRequests">
-      <td>{{request.reservedFrom}} : {{request.reservedTo}}</td>
+      <td>{{request.reservedFrom.toString().split(',')[0] + '-' +
+      request.reservedFrom.toString().split(',')[1] + '-' + request.reservedFrom.toString().split(',')[2]
+        }} : {{request.reservedTo.toString().split(',')[0] + '-' +
+        request.reservedTo.toString().split(',')[1] + '-' + request.reservedTo.toString().split(',')[2]
+        }}
+      </td>
       <td>
     <tr *ngFor="let advertisement of request.advertisementsForRent">
-      {{advertisement.car.carBrand.name}} {{advertisement.car.carModel.name}}</tr>
+      {{advertisement.car.carBrand.name}} {{advertisement.car.carModel.name}}
+    </tr>
     </td>
     <td>
       <tr *ngFor="let advertisement of request.advertisementsForRent">
-        <button class="btn btn-primary btn-block" (click)="openMoreInfoModal(myModalMoreInfo, advertisement, request)">Write
-          report
+        <button *ngIf="!checkIfReportExists(request, advertisement)" class="btn-primary btn-block"
+                (click)="openMoreInfoModal(myModalMoreInfo, advertisement, request)">
+          Write report
         </button>
+        <mat-label *ngIf="checkIfReportExists(request, advertisement)"> Report for this car already exists</mat-label>
       </tr>
     </td>
     </tr>
@@ -74,24 +82,28 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="form-group col-lg-6">
-          <label for="km">Distance during rent (km): </label>
-          <textarea [(ngModel)]="km" id="km"
-                    class="md-textarea form-control" required></textarea>
-          <div class="invalid-feedback">
-            Please enter a km.
+      <form [formGroup]="infoForm">
+
+        <div class="row">
+          <div class="form-group col-lg-6">
+            <label for="km">Distance during rent (km): </label>
+            <textarea id="km" formControlName="km"
+                      class="md-textarea form-control" required></textarea>
+            <span style="color: red"
+                  *ngIf="fci.km.invalid && fci.km.touched">Km must be numbers</span>
           </div>
+          <div class="form-group col-lg-6 ">
+            <label for="additionalInformation">Additional Information : </label>
+            <textarea id="additionalInformation" formControlName="additionalInformation"
+                      class="md-textarea form-control"></textarea>
+          </div>
+          <span style="color: red"
+                *ngIf="fci.additionalInformation.invalid && fci.additionalInformation.touched"></span>
         </div>
-        <div class="form-group col-lg-6 ">
-          <label for="additionalInformation">Additional Information : </label>
-          <textarea [(ngModel)]="additionalInformation" id="additionalInformation"
-                    class="md-textarea form-control"></textarea>
-        </div>
-      </div>
+      </form>
 
       <div class="text-center">
-        <button class="btn btn-success" (click)="createReport()"> Write</button>
+        <button class="btn btn-success" (click)="createReport()" [hidden]="infoForm.invalid"> Write</button>
       </div>
 
     </div>
