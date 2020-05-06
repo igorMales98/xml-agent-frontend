@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faAd, faStar, faEuroSign, faComments, faCar, faChartBar} from '@fortawesome/free-solid-svg-icons';
+import {faAd, faStar, faEuroSign, faComments, faCar, faChartBar, faFileAlt} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'xml-agent-front';
 
   faCreateAd = faAd;
-  faReport = faChartBar;
+  faReport = faFileAlt;
   faStar = faStar;
   faEuroSign = faEuroSign;
   faMessages = faComments;

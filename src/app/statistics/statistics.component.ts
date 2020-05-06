@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Car} from '../model/car';
 import {StatisticsService} from './statistics.service';
+import {BaseChartDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-statistics',
@@ -18,7 +19,13 @@ export class StatisticsComponent implements OnInit {
     {label: 'Car rating'}
   ];
 
+  public chartDatasets2: Array<any> = [
+    {label: 'Times rented'}
+  ];
+
   public chartLabels: Array<any> = [];
+
+  public chartLabels2: Array<any> = [];
 
   public chartColors: Array<any> = [
     {
@@ -144,6 +151,7 @@ export class StatisticsComponent implements OnInit {
 
   carsForRatingStatistics: Car[] = [];
   ratings: any[] = [];
+  rents: any[] = [];
 
   ngOnInit(): void {
     this.statisticsService.getCarsForRatingStatistics().subscribe(data => {
@@ -151,14 +159,25 @@ export class StatisticsComponent implements OnInit {
       for (const car of this.carsForRatingStatistics) {
         this.ratings.push(car.averageRating);
         this.chartLabels.push(car.carBrand.name + ' ' + car.carModel.name);
+        this.statisticsService.getTimesRentedForACar(car.id).subscribe(timesRented => {
+          car.timesRented = timesRented;
+          this.rents.push(timesRented);
+          this.chartLabels2.push(car.carBrand.name + ' ' + car.carModel.name);
+        });
       }
       this.ratings.push(0);
       this.chartDatasets = [{
         data: this.ratings,
         label: 'Rating'
       }];
-    });
+      setTimeout(() => {
+        this.chartDatasets2 = [{
+          data: this.rents,
+          label: 'Times rated'
+        }];
+      }, 100);
 
+    });
   }
 
   public chartClicked(e: any): void {
