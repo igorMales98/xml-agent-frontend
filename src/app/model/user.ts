@@ -1,5 +1,5 @@
 export class User {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -17,4 +17,5 @@ export class User {
     this.address = address;
     this.phone = phone;
   }
+  
 }
