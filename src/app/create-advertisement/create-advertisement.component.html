@@ -222,15 +222,17 @@
         <table id="table" class="table table-bordered table-striped">
           <thead class="thead-dark">
           <tr>
-            <th scope="col">Id</th>
             <th scope="col">Price per day</th>
+            <th scope="col">Price per km over limit</th>
+            <th scope="col">Price for CDW</th>
             <th scope="col">Select</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let pricelist of allPricelists">
-            <td>{{pricelist.id}}</td>
-            <td>{{pricelist.pricePerDay}}</td>
+            <td>{{pricelist.pricePerDay + ' $'}}</td>
+            <td>{{pricelist.pricePerKm + ' $'}}</td>
+            <td>{{pricelist.priceForCDW + ' $'}}</td>
             <td>
               <mat-radio-button name="priceGroup" color="primary"
                                 (click)="selectPricelist(pricelist)"></mat-radio-button>

@@ -10,7 +10,7 @@ import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {RentRequest} from '../model/rentRequest';
 import {Router} from '@angular/router';
-import {Comment} from '../model/comment'
+import {Comment} from '../model/comment';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -198,7 +198,7 @@ export class RentACarComponent implements OnInit {
     const rentRequest = new RentRequest(this.startDate, this.endDate, customer, this.cart);
     this.rentACarService.createRentRequest(rentRequest).subscribe(data => {
       this.showNotification('success', 'Successfully created rent request.');
-      // this.router.navigate(['homePage']);
+      this.router.navigate(['homePage']);
     });
   }
 

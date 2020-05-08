@@ -22,6 +22,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {PricelistComponent} from './pricelist/pricelist.component';
 import {RentACarComponent} from './rent-a-car/rent-a-car.component';
 import {StatisticsComponent} from './statistics/statistics.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 /**
  * Custom angular notifier options
@@ -95,7 +96,8 @@ const customNotifierOptions: NotifierOptions = {
     ReactiveFormsModule,
     MatRadioModule,
     MatDatepickerModule,
-    ChartsModule
+    ChartsModule,
+    MatFormFieldModule
   ],
   providers: [
     DatePipe
