@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import { Advertisement } from '../model/advertisement';
+import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HomePageService} from './home-page.service';
 import {faInfo, faCommentAlt, faComments, faUser} from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
   faCommentAlt = faCommentAlt;
   faComment = faComments;
   faUser = faUser;
-  id = "1";
+  id = '1';
   allAdvertisements: Advertisement[] = [];
   allImagesForAd: string[] = [];
   closeResult: string;
@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit {
 
     });
   }
- 
+
   openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
     this.modalService.open(myModalMoreInfo, {
       ariaLabelledBy: 'modal-basic-title',

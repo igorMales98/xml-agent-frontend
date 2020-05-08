@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {CreateAdvertisementComponent} from './create-advertisement/create-advertisement.component';
 import {MessagesComponent} from './messages/messages.component';
-import {AppComponent} from './app.component';
 import {CreateReportComponent} from './create-report/create-report.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {PricelistComponent} from './pricelist/pricelist.component';

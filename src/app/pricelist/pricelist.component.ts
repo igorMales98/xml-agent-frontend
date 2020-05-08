@@ -1,6 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { PricelistService } from './pricelist.service';
+import {PricelistService} from './pricelist.service';
 import {Pricelist} from '../model/pricelist';
 import {NotifierService} from 'angular-notifier';
 import {Router} from '@angular/router';
@@ -21,11 +21,11 @@ export class PricelistComponent implements OnInit {
 
   allPricelists: Pricelist[] = [];
 
-  constructor(private formBuilder: FormBuilder, private pricelistService: PricelistService, 
-    private notifierService: NotifierService, private router: Router, private modalService: NgbModal) { 
-      this.notifier = notifierService;
-      this.router = router;
-    }
+  constructor(private formBuilder: FormBuilder, private pricelistService: PricelistService,
+              private notifierService: NotifierService, private router: Router, private modalService: NgbModal) {
+    this.notifier = notifierService;
+    this.router = router;
+  }
 
   get pricelistFb() {
     return this.pricelistForm.controls;
@@ -39,43 +39,45 @@ export class PricelistComponent implements OnInit {
     this.pricelistForm = this.formBuilder.group({
       pricePerDay: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
       pricePerKm: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
-      priceForCDW: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]]});
-      this.pricelistService.getAllPricelists().subscribe(data => {
-        this.allPricelists = data;
-      });
+      priceForCDW: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]]
+    });
+    this.pricelistService.getAllPricelists().subscribe(data => {
+      this.allPricelists = data;
+    });
 
-      this.editPriceForm = this.formBuilder.group({
-        id: [''],
-        pricePerDay: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
-        pricePerKm: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
-        priceForCDW: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]]
-       });
+    this.editPriceForm = this.formBuilder.group({
+      id: [''],
+      pricePerDay: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
+      pricePerKm: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]],
+      priceForCDW: ['', [Validators.required, Validators.pattern(/^[+]?\d+([.]\d+)?$/), Validators.maxLength(6), Validators.minLength(1)]]
+    });
   }
 
   public showNotification(type: string, message: string): void {
     this.notifier.notify(type, message);
   }
 
-  addPriceToPricelist(){
-    const price = new Pricelist("", this.pricelistForm.value.pricePerDay, this.pricelistForm.value.pricePerKm, this.pricelistForm.value.priceForCDW);
+  addPriceToPricelist() {
+    const price = new Pricelist('', this.pricelistForm.value.pricePerDay, this.pricelistForm.value.pricePerKm,
+      this.pricelistForm.value.priceForCDW);
     this.pricelistService.createPricelist(price).subscribe(data => {
-      this.showNotification('success', 'A new price is successfuly added to pricelist.');
-      this.ngOnInit();
-    }, 
-    error => {
-      this.showNotification('error', "Invalid input error! Try again.");
-    });
+        this.showNotification('success', 'A new price is successfuly added to pricelist.');
+        this.ngOnInit();
+      },
+      error => {
+        this.showNotification('error', 'Invalid input error! Try again.');
+      });
   }
 
   openConfirmDeleteModal(targetModal, id) {
     this.idToDelete = id;
     this.modalService.open(targetModal, {
-     centered: true,
-     backdrop: 'static'
+      centered: true,
+      backdrop: 'static'
     });
   }
 
-  deletePricelist(){
+  deletePricelist() {
     this.pricelistService.deletePricelist(this.idToDelete).subscribe(data => {
       this.showNotification('success', 'Price is successfuly deleted.');
       this.modalService.dismissAll();
@@ -86,8 +88,8 @@ export class PricelistComponent implements OnInit {
 
   openModal(targetModal, pricelist) {
     this.modalService.open(targetModal, {
-     centered: true,
-     backdrop: 'static'
+      centered: true,
+      backdrop: 'static'
     });
 
     this.editPriceForm.patchValue({
@@ -95,26 +97,25 @@ export class PricelistComponent implements OnInit {
       pricePerDay: pricelist.pricePerDay,
       pricePerKm: pricelist.pricePerKm,
       priceForCDW: pricelist.priceForCDW
-     });
+    });
   }
 
-  saveChanges(pricelist: Pricelist){
-      pricelist = this.editPriceForm.getRawValue();
-      this.pricelistService.editPricelist(pricelist).subscribe(data => {
-      this.showNotification('success', 'Price is successfuly edited.');
-      this.modalService.dismissAll();
-      this.ngOnInit();
-    },
-    error => {
-      this.showNotification('error', "Invalid input error! Try again.");
-    });
+  saveChanges(pricelist: Pricelist) {
+    pricelist = this.editPriceForm.getRawValue();
+    this.pricelistService.editPricelist(pricelist).subscribe(data => {
+        this.showNotification('success', 'Price is successfuly edited.');
+        this.modalService.dismissAll();
+        this.ngOnInit();
+      },
+      error => {
+        this.showNotification('error', 'Invalid input error! Try again.');
+      });
   }
 
   onSubmit() {
     this.modalService.dismissAll();
-    console.log("res:", this.editPriceForm.getRawValue());
-   }
+    console.log('res:', this.editPriceForm.getRawValue());
+  }
 
-  
 
 }
