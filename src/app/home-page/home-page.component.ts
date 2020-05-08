@@ -23,7 +23,7 @@ export class HomePageComponent implements OnInit {
   moreInfoAdvertisement: Advertisement;
   private readonly imageType: string = 'data:image/PNG;base64,';
   comments: Comment[] = [];
-  clickedAuthor: number;
+  clickedAuthor: string;
   isDisabled: boolean;
 
   constructor(private homePageService: HomePageService, private domSanitizer: DomSanitizer, private modalService: NgbModal) {
@@ -88,7 +88,7 @@ export class HomePageComponent implements OnInit {
     }
   }
 
-  openModal(content: TemplateRef<any>, commenter: number) {
+  openModal(content: TemplateRef<any>, commenter: string) {
     this.clickedAuthor = commenter;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
