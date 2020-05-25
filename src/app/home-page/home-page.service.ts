@@ -12,7 +12,7 @@ export class HomePageService {
   }
 
   getAllAdvertisements(agentId: string) {
-    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/getAll/' +agentId);
+    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/getAll/' + agentId);
   }
 
   getAdvertisementPhotos(adId: string) {
@@ -20,7 +20,7 @@ export class HomePageService {
   }
 
   getComments(adId: string) {
-    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/getAll/'+adId);
+    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/getAll/' + adId);
   }
 
   sendReply(comment: Comment) {
