@@ -53,8 +53,8 @@ export class RentACarComponent implements OnInit {
     this.notifier = notifierService;
     this.startDate = new Date().toISOString().slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
-    this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
-    this.minDateEnd = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
+    this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
+    this.minDateEnd = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
   }
 
   ngOnInit(): void {

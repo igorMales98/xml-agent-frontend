@@ -1,28 +1,28 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Pricelist } from '../model/pricelist';
+import {Pricelist} from '../model/pricelist';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class PricelistService {
-    
-    constructor(private httpClient: HttpClient) {
-    }
 
-    createPricelist(newPrice: Pricelist) {
-        return this.httpClient.post('http://localhost:8082/api/pricelist/addPricelist', newPrice);
-    }
+  constructor(private httpClient: HttpClient) {
+  }
 
-    getAllPricelists() {
-        return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist/getAll');
-    }
+  createPricelist(newPrice: Pricelist) {
+    return this.httpClient.post('http://localhost:8082/api/pricelist', newPrice);
+  }
 
-    deletePricelist(id: number) {
-        return this.httpClient.delete('http://localhost:8082/api/pricelist/deletePricelist/' + id);
-    }
+  getAllPricelists() {
+    return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist');
+  }
 
-    editPricelist(editedPricelist: Pricelist){
-        return this.httpClient.put('http://localhost:8082/api/pricelist/editPricelist', editedPricelist);
-    }
+  deletePricelist(id: number) {
+    return this.httpClient.delete('http://localhost:8082/api/pricelist/' + id);
+  }
+
+  editPricelist(editedPricelist: Pricelist) {
+    return this.httpClient.put('http://localhost:8082/api/pricelist', editedPricelist);
+  }
 }

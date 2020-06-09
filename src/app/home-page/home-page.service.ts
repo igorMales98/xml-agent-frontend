@@ -12,19 +12,19 @@ export class HomePageService {
   }
 
   getAllAdvertisements(agentId: string) {
-    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/getAll/' + agentId);
+    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/' + agentId);
   }
 
   getAdvertisementPhotos(adId: string) {
-    return this.httpClient.get('http://localhost:8082/api/advertisement/getAdvertisementsPhotos/' + adId);
+    return this.httpClient.get('http://localhost:8082/api/advertisement/photos/' + adId);
   }
 
   getComments(adId: string) {
-    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/getAll/' + adId);
+    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/' + adId);
   }
 
   sendReply(comment: Comment) {
-    return this.httpClient.post('http://localhost:8082/api/comment/sendReply', comment);
+    return this.httpClient.post('http://localhost:8082/api/comment/reply', comment);
   }
 
 }

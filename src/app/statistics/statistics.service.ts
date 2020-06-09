@@ -11,7 +11,7 @@ export class StatisticsService {
   }
 
   getCarsForRatingStatistics() {
-    return this.httpClient.get<Car[]>('http://localhost:8082/api/car/getAll');
+    return this.httpClient.get<Car[]>('http://localhost:8082/api/car');
   }
 
   getTimesRentedForACar(id: string) {
