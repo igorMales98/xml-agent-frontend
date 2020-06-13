@@ -151,14 +151,12 @@ export class RentACarComponent implements OnInit {
 
       for (const advertisement of this.allAvailableAdvertisements) {
         advertisement.image = [];
-        this.rentACarService.getAdvertisementPhotos(advertisement.id).subscribe(img => {
-          console.log(img as string);
-          const images = img.toString();
-          this.allImagesForAd = images.split(',');
-          for (let i = 0; i < this.allImagesForAd.length; i++) {
-            advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
-          }
-        });
+        const images = advertisement.img.toString();
+        this.allImagesForAd = images.split(',');
+        for (let i = 0; i < this.allImagesForAd.length; i++) {
+          advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
+        }
+
       }
       el.scrollIntoView({behavior: 'smooth'});
       setTimeout(() => {

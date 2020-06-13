@@ -48,7 +48,10 @@ export class MessagesComponent implements OnInit {
   sendMessage() {
     const body = (document.getElementById('newMessage') as HTMLInputElement).value;
     const message = new Message(body, this.clickedCustomer);
-    this.messagesService.sendMessage(message).subscribe();
+    this.messagesService.sendMessage(message).subscribe(() => {
+        this.showMessages(this.clickedCustomer);
+      }
+    );
   }
 
   formatDate(oldDate: string) {
