@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import { Advertisement } from '../model/advertisement';
+import {Advertisement} from '../model/advertisement';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HomePageService} from './home-page.service';
 import {faInfo, faCommentAlt, faComments, faUser} from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
   faCommentAlt = faCommentAlt;
   faComment = faComments;
   faUser = faUser;
-  id = "1";
+  id = '1';
   allAdvertisements: Advertisement[] = [];
   allImagesForAd: string[] = [];
   closeResult: string;
@@ -35,19 +35,17 @@ export class HomePageComponent implements OnInit {
 
       for (const advertisement of this.allAdvertisements) {
         advertisement.image = [];
-        this.homePageService.getAdvertisementPhotos(advertisement.id).subscribe(img => {
-          console.log(img as string);
-          const images = img.toString();
-          this.allImagesForAd = images.split(',');
-          for (let i = 0; i < this.allImagesForAd.length; i++) {
-            advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
-          }
-        });
+        const images = advertisement.img.toString();
+        this.allImagesForAd = images.split(',');
+        for (let i = 0; i < this.allImagesForAd.length; i++) {
+          advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
+        }
+
       }
 
     });
   }
- 
+
   openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement: Advertisement) {
     this.modalService.open(myModalMoreInfo, {
       ariaLabelledBy: 'modal-basic-title',

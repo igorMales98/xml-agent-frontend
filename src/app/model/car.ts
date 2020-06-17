@@ -17,4 +17,8 @@ export class Car {
   collisionDamageWaiverExists: boolean;
   hasAndroid: boolean;
   mileage: number;
+
+  // helper fields
+  timesRented: number;
+  rentMileage: number;
 }

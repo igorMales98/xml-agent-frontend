@@ -13,7 +13,7 @@ export class CreateReportService {
   }
 
   getAllRentRequests() {
-    return this.httpClient.get<RentRequest[]>('http://localhost:8082/api/rent-request/getAll');
+    return this.httpClient.get<RentRequest[]>('http://localhost:8082/api/rent-request/getFinishedRents');
   }
 
   createReport(report: Report){

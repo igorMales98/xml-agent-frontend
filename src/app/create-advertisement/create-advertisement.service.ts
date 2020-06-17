@@ -18,7 +18,7 @@ export class CreateAdvertisementService {
   }
 
   getAllCarBrands() {
-    return this.httpClient.get<CarBrand[]>('http://localhost:8082/api/car-brand/getAll');
+    return this.httpClient.get<CarBrand[]>('http://localhost:8082/api/car-brand');
   }
 
   getCarBrandModels(id: string) {
@@ -26,24 +26,24 @@ export class CreateAdvertisementService {
   }
 
   getAllFuelTypes() {
-    return this.httpClient.get<FuelType[]>('http://localhost:8082/api/fuel-type/getAll');
+    return this.httpClient.get<FuelType[]>('http://localhost:8082/api/fuel-type');
   }
 
   getAllTransmissionTypes() {
-    return this.httpClient.get<TransmissionType[]>('http://localhost:8082/api/transmission-type/getAll');
+    return this.httpClient.get<TransmissionType[]>('http://localhost:8082/api/transmission-type');
   }
 
   getAllCarClasses() {
-    return this.httpClient.get<CarClass[]>('http://localhost:8082/api/car-class/getAll');
+    return this.httpClient.get<CarClass[]>('http://localhost:8082/api/car-class');
   }
 
   getAllPricelists() {
-    return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist/getAll');
+    return this.httpClient.get<Pricelist[]>('http://localhost:8082/api/pricelist');
   }
 
   createAdvertisement(selectedFiles, createAdvertisement: CreateAdvertisements) {
 
-    return this.httpClient.post('http://localhost:8082/api/advertisement/create', createAdvertisement).subscribe(data => {
+    return this.httpClient.post('http://localhost:8082/api/advertisement', createAdvertisement).subscribe(data => {
       const uploadData = new FormData();
 
       for (let blob of selectedFiles) {

@@ -1,11 +1,12 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { RentRequest } from '../model/rentRequest';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {RentRequest} from '../model/rentRequest';
 import {CreateReportService} from './create-report.service';
-import { NotifierService } from 'angular-notifier';
-import { Advertisement } from '../model/advertisement';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Report } from '../model/report';
-import { Router } from '@angular/router';
+import {NotifierService} from 'angular-notifier';
+import {Advertisement} from '../model/advertisement';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Report} from '../model/report';
+import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-create-report',
@@ -19,21 +20,29 @@ export class CreateReportComponent implements OnInit {
   advertisement: Advertisement;
   closeResult: string;
   rentRequest: RentRequest;
-  km : number;
-  additionalInformation : string;
+  infoForm: FormGroup;
 
-  constructor(private createReportService: CreateReportService, private modalService: NgbModal, private router: Router, private notifierService: NotifierService) {
+  constructor(private createReportService: CreateReportService, private modalService: NgbModal, private router: Router,
+              private notifierService: NotifierService, private formBuilder: FormBuilder) {
     this.notifier = notifierService;
-   }
+  }
 
   ngOnInit(): void {
     this.createReportService.getAllRentRequests().subscribe(data => {
       this.allRentRequests = data;
     });
-
+    this.infoForm = this.formBuilder.group({
+      km: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      additionalInformation: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s]*$/)]]
+    });
   }
 
-  openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement1: Advertisement) {
+  get fci() {
+    return this.infoForm.controls;
+  }
+
+  openMoreInfoModal(myModalMoreInfo: TemplateRef<any>, advertisement1: Advertisement, request: RentRequest) {
+    this.rentRequest = request;
     this.advertisement = advertisement1;
     this.modalService.open(myModalMoreInfo, {
       ariaLabelledBy: 'modal-basic-title',
@@ -60,8 +69,8 @@ export class CreateReportComponent implements OnInit {
     this.notifier.notify(type, message);
   }
 
-  createReport(){
-    const report = new Report(this.advertisement.car, this.km, this.additionalInformation);
+  createReport() {
+    const report = new Report(this.advertisement.car, this.infoForm.value.km, this.infoForm.value.additionalInformation, this.rentRequest);
 
     this.createReportService.createReport(report).subscribe(data => {
       this.showNotification('success', 'Successfully created report.');
@@ -71,4 +80,12 @@ export class CreateReportComponent implements OnInit {
     this.router.navigate(['/homePage']);
   }
 
+  checkIfReportExists(request: RentRequest, advertisement: Advertisement) {
+    for (const report of request.reports) {
+      if (report.car.id === advertisement.car.id) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

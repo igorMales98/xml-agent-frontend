@@ -10,7 +10,7 @@ import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {RentRequest} from '../model/rentRequest';
 import {Router} from '@angular/router';
-import {Comment} from '../model/comment'
+import {Comment} from '../model/comment';
 
 @Component({
   selector: 'app-rent-a-car',
@@ -53,8 +53,8 @@ export class RentACarComponent implements OnInit {
     this.notifier = notifierService;
     this.startDate = new Date().toISOString().slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
-    this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
-    this.minDateEnd = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
+    this.minDateStart = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
+    this.minDateEnd = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
   }
 
   ngOnInit(): void {
@@ -151,14 +151,12 @@ export class RentACarComponent implements OnInit {
 
       for (const advertisement of this.allAvailableAdvertisements) {
         advertisement.image = [];
-        this.rentACarService.getAdvertisementPhotos(advertisement.id).subscribe(img => {
-          console.log(img as string);
-          const images = img.toString();
-          this.allImagesForAd = images.split(',');
-          for (let i = 0; i < this.allImagesForAd.length; i++) {
-            advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
-          }
-        });
+        const images = advertisement.img.toString();
+        this.allImagesForAd = images.split(',');
+        for (let i = 0; i < this.allImagesForAd.length; i++) {
+          advertisement.image.push(this.domSanitizer.bypassSecurityTrustUrl(this.imageType + this.allImagesForAd[i]));
+        }
+
       }
       el.scrollIntoView({behavior: 'smooth'});
       setTimeout(() => {
@@ -198,7 +196,7 @@ export class RentACarComponent implements OnInit {
     const rentRequest = new RentRequest(this.startDate, this.endDate, customer, this.cart);
     this.rentACarService.createRentRequest(rentRequest).subscribe(data => {
       this.showNotification('success', 'Successfully created rent request.');
-      // this.router.navigate(['homePage']);
+      this.router.navigate(['homePage']);
     });
   }
 

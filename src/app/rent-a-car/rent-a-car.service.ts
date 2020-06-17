@@ -17,7 +17,7 @@ export class RentACarService {
   }
 
   getAdvertisementPhotos(id: string) {
-    return this.httpClient.get('http://localhost:8082/api/advertisement/getAdvertisementsPhotos/' + id);
+    return this.httpClient.get('http://localhost:8082/api/advertisement/photos/' + id);
   }
 
   createRentRequest(rentRequest: RentRequest) {
@@ -25,6 +25,6 @@ export class RentACarService {
   }
 
   getComments(adId: string) {
-    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/getAll/'+adId);
+    return this.httpClient.get<Comment[]>('http://localhost:8082/api/comment/' + adId);
   }
 }

@@ -14,14 +14,14 @@ export class MessagesService {
   }
 
   getReservedCustomers(agentId: string) {
-    return this.httpClient.get<User[]>('http://localhost:8082/api/message/getReservedCustomers/'+agentId);
+    return this.httpClient.get<User[]>('http://localhost:8082/api/message/getReservedCustomers/' + agentId);
   }
 
   getMessages(agentId: string, customerId: string) {
-    return this.httpClient.get<Message[]>('http://localhost:8082/api/message/getMessages/'+agentId +'/'+customerId);
+    return this.httpClient.get<Message[]>('http://localhost:8082/api/message/' + agentId + '/' + customerId);
   }
 
   sendMessage(message: Message) {
-    return this.httpClient.post('http://localhost:8082/api/message/sendMessage', message);
+    return this.httpClient.post('http://localhost:8082/api/message', message);
   }
 }
