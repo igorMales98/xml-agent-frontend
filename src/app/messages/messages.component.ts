@@ -16,8 +16,12 @@ export class MessagesComponent implements OnInit {
   clickedCustomer: User;
   agentId = '1';
   show: boolean;
+  newMessageHidden: boolean;
 
-  constructor(private messagesService: MessagesService) { }
+
+  constructor(private messagesService: MessagesService) {
+    this.newMessageHidden = true;
+   }
 
   ngOnInit(): void {
     this.messagesService.getReservedCustomers(this.agentId).subscribe(data => {
@@ -26,6 +30,7 @@ export class MessagesComponent implements OnInit {
   }
 
   showMessages(customer: User) {
+    this.newMessageHidden = false;
     this.messagesService.getMessages(this.agentId,customer.id).subscribe(data => {
       this.messages = data;
       for (let i=0;i<this.messages.length;i++) {
@@ -44,6 +49,8 @@ export class MessagesComponent implements OnInit {
     let body = (<HTMLInputElement>document.getElementById("newMessage")).value;
     let message = new Message(body,this.clickedCustomer);
     this.messagesService.sendMessage(message).subscribe();
+    this.ngOnInit();
+    this.showMessages(this.clickedCustomer);
   }
  
   formatDate(oldDate: string) {
