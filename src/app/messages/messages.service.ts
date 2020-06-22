@@ -14,7 +14,7 @@ export class MessagesService {
   }
 
   getReservedCustomers(agentId: string) {
-    return this.httpClient.get<User[]>('http://localhost:8082/api/message/getReservedCustomers/' + agentId);
+    return this.httpClient.get<User[]>('http://localhost:8082/api/message/reservedCustomers/' + agentId);
   }
 
   getMessages(agentId: string, customerId: string) {

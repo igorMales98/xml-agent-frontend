@@ -22,7 +22,7 @@ export class CreateAdvertisementService {
   }
 
   getCarBrandModels(id: string) {
-    return this.httpClient.get<CarModel[]>('http://localhost:8082/api/car-model/getBrandModels/' + id);
+    return this.httpClient.get<CarModel[]>('http://localhost:8082/api/car-model/' + id);
   }
 
   getAllFuelTypes() {

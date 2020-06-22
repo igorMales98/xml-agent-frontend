@@ -13,7 +13,7 @@ export class RentACarService {
   }
 
   getAllAvailableAdvertisementsInPeriod(dateFrom: string, dateTo: string) {
-    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/getInPeriod/' + dateFrom + '/' + dateTo);
+    return this.httpClient.get<Advertisement[]>('http://localhost:8082/api/advertisement/inPeriod/' + dateFrom + '/' + dateTo);
   }
 
   getAdvertisementPhotos(id: string) {
