@@ -56,6 +56,7 @@ export class CreateAdvertisementComponent implements OnInit {
   finalCarClass: CarClass;
   hasACDW = false;
   isUnlimited = true;
+  hasAndroid = false;
 
   closeResult: string;
   advertisementForm: FormGroup;
@@ -317,7 +318,7 @@ export class CreateAdvertisementComponent implements OnInit {
     const createAdvertisement = new CreateAdvertisements(this.finalCarBrand, this.finalCarModel, this.finalCarClass, this.finalFuelType,
       this.finalTransmissionType, this.finalPricelist, this.d1,
       this.d2, this.advertisementForm.value.mileage,
-      this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance, convMap);
+      this.advertisementForm.value.childSeats, this.hasACDW, this.advertisementForm.value.allowedDistance, convMap,this.hasAndroid);
     this.createAdvertisementService.createAdvertisement(this.selectedFiles, createAdvertisement);
     this.showNotification('success', 'Successfully created an advertisement.');
     // this.router.navigate(['/homePage']);
@@ -327,6 +328,11 @@ export class CreateAdvertisementComponent implements OnInit {
     console.log('adfasf' + this.discountForm.value.days0);
     this.hasACDW = this.hasACDW !== true;
     console.log(this.hasACDW);
+  }
+
+  changeAndroid() {
+    this.hasAndroid = this.hasAndroid !== true;
+    console.log(this.hasAndroid);
   }
 
   changeIsUnlimited() {

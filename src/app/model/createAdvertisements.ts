@@ -19,10 +19,12 @@ export class CreateAdvertisements {
   hasACDW: boolean;
   allowedDistance: number;
   discount: string;
+  hasAndroid: boolean;
+  androidToken: string;
 
   constructor(carBrand: CarBrand, carModel: CarModel, carClass: CarClass, fuelType: FuelType, transmissionType: TransmissionType,
               pricelist: Pricelist, availableFrom: Date, availableTo: Date, mileage: number, childSeats: number, hasACDW: boolean,
-              allowedDistance: number, discount: string) {
+              allowedDistance: number, discount: string, hasAndroid: boolean) {
     this.carBrand = carBrand;
     this.carModel = carModel;
     this.carClass = carClass;
@@ -36,5 +38,6 @@ export class CreateAdvertisements {
     this.hasACDW = hasACDW;
     this.allowedDistance = allowedDistance;
     this.discount = discount;
+    this.hasAndroid = hasAndroid;
   }
 }
