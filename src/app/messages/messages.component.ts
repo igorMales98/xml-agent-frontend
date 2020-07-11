@@ -15,7 +15,7 @@ export class MessagesComponent implements OnInit {
   customers: User[] = [];
   messages: Message[] = [];
   clickedCustomer: User;
-  agentId = '1';
+  agentId = '2';
   show: boolean;
 
   constructor(private messagesService: MessagesService) {

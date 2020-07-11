@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
   faCommentAlt = faCommentAlt;
   faComment = faComments;
   faUser = faUser;
-  id = '1';
+  id = '2';
   allAdvertisements: Advertisement[] = [];
   allImagesForAd: string[] = [];
   closeResult: string;
